@@ -17,7 +17,6 @@
 html{scroll-behavior:smooth;}
 body{background:var(--soil);color:var(--parch);font-family:'DM Mono',monospace;overflow-x:hidden;min-height:100vh;}
 
-/* ── UNDERGROUND BG ── */
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
     radial-gradient(ellipse 100% 60% at 50% 100%,rgba(28,22,10,0.9) 0%,transparent 60%),
@@ -30,29 +29,30 @@ body{background:var(--soil);color:var(--parch);font-family:'DM Mono',monospace;o
     radial-gradient(ellipse 40% 20% at 15% 95%,rgba(80,60,18,0.12) 0%,transparent 50%),
     radial-gradient(ellipse 35% 25% at 85% 90%,rgba(90,68,16,0.10) 0%,transparent 50%);}
 #mycel-net{position:fixed;inset:0;z-index:1;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='900' viewBox='0 0 1440 900'%3E%3Cdefs%3E%3Cfilter id='blur'%3E%3CfeGaussianBlur stdDeviation='1.2'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23blur)'%3E%3Cg stroke='rgba(140%2C110%2C45%2C0.22)' stroke-width='0.8' fill='none' stroke-linecap='round'%3E%3Cpath d='M0,820 Q80,750 180,780 Q280,810 360,740 Q440,670 520,710 Q600,750 680,680 Q760,610 840,650 Q920,690 1000,620 Q1080,550 1160,590 Q1240,630 1320,560 Q1380,510 1440,540'/%3E%3Cpath d='M0,860 Q100,800 200,830 Q300,860 380,790 Q460,720 560,760 Q640,790 720,720 Q800,650 900,700 Q980,740 1060,660 Q1140,580 1220,630 Q1300,670 1440,600'/%3E%3Cpath d='M0,780 Q60,700 140,730 Q230,760 300,690 Q380,620 460,660 Q540,700 630,640 Q710,580 800,620 Q880,655 960,590 Q1050,520 1140,560 Q1220,595 1310,530 Q1380,480 1440,500'/%3E%3Cpath d='M180,900 Q200,840 240,800 Q280,760 320,720 Q360,680 420,710'/%3E%3Cpath d='M360,900 Q380,850 410,810 Q450,760 510,790 Q570,820 620,770'/%3E%3Cpath d='M560,900 Q590,840 630,800 Q680,750 740,780'/%3E%3Cpath d='M760,900 Q780,850 820,810 Q870,760 930,790'/%3E%3Cpath d='M960,900 Q990,840 1030,800 Q1080,750 1140,770'/%3E%3Cpath d='M1160,900 Q1190,850 1230,810 Q1280,760 1340,780'/%3E%3C/g%3E%3Cg fill='rgba(160%2C125%2C50%2C0.35)'%3E%3Ccircle cx='180' cy='780' r='1.8'/%3E%3Ccircle cx='360' cy='740' r='1.5'/%3E%3Ccircle cx='520' cy='710' r='2.0'/%3E%3Ccircle cx='680' cy='680' r='1.6'/%3E%3Ccircle cx='840' cy='650' r='1.9'/%3E%3Ccircle cx='1000' cy='620' r='1.7'/%3E%3Ccircle cx='1160' cy='590' r='1.8'/%3E%3Ccircle cx='1320' cy='560' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='900' viewBox='0 0 1440 900'%3E%3Cdefs%3E%3Cfilter id='blur'%3E%3CfeGaussianBlur stdDeviation='1.2'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23blur)'%3E%3Cg stroke='rgba(140%2C110%2C45%2C0.22)' stroke-width='0.8' fill='none' stroke-linecap='round'%3E%3Cpath d='M0,820 Q80,750 180,780 Q280,810 360,740 Q440,670 520,710 Q600,750 680,680 Q760,610 840,650 Q920,690 1000,620 Q1080,550 1160,590 Q1240,630 1320,560 Q1380,510 1440,540'/%3E%3Cpath d='M0,860 Q100,800 200,830 Q300,860 380,790 Q460,720 560,760 Q640,790 720,720 Q800,650 900,700 Q980,740 1060,660 Q1140,580 1220,630 Q1300,670 1440,600'/%3E%3C/g%3E%3Cg fill='rgba(160%2C125%2C50%2C0.35)'%3E%3Ccircle cx='180' cy='780' r='1.8'/%3E%3Ccircle cx='360' cy='740' r='1.5'/%3E%3Ccircle cx='520' cy='710' r='2.0'/%3E%3Ccircle cx='680' cy='680' r='1.6'/%3E%3Ccircle cx='840' cy='650' r='1.9'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   background-size:cover;background-position:center bottom;opacity:0.9;}
 #grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.028;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat:repeat;background-size:280px 280px;}
 
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
   display:flex;align-items:center;justify-content:space-between;
   background:rgba(8,9,8,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);}
 .n-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;
-  color:var(--parch);text-decoration:none;letter-spacing:.03em;}
+  color:var(--parch);text-decoration:none;letter-spacing:.03em;display:flex;align-items:center;gap:8px;}
 .n-logo b{color:var(--spore);}
+.n-logo svg{width:20px;height:20px;stroke:var(--spore);fill:none;stroke-width:1.2;}
 .n-links{display:flex;gap:1px;list-style:none;overflow-x:auto;max-width:80%;}
 .n-links a{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--mist);text-decoration:none;padding:5px 10px;border:1px solid transparent;
-  transition:color .2s,border-color .2s,background .2s;white-space:nowrap;cursor:pointer;}
+  transition:color .2s,border-color .2s,background .2s;white-space:nowrap;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;}
+.n-links a svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.3;flex-shrink:0;}
 .n-links a:hover,.n-links a.on{color:var(--spore);border-color:var(--border);background:var(--spd);}
 
 #app{position:relative;z-index:10;padding-top:58px;min-height:100vh;}
 
-/* HOME */
 #hv{padding:80px 40px 100px;}
 .h-eye{font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--mycel);margin-bottom:22px;}
 .h-hl{font-family:'Playfair Display',serif;font-size:clamp(50px,7.5vw,104px);
@@ -66,12 +66,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
   background:var(--spore);transform:scaleX(0);transition:transform .24s;transform-origin:left;}
 .hc:hover{background:rgba(18,19,15,.94);border-color:var(--bh);transform:translateY(-2px);}
 .hc:hover::after{transform:scaleX(1);}
-.hc-ic{font-size:22px;margin-bottom:12px;opacity:.72;}
+.hc-ic{margin-bottom:14px;color:var(--spore);}
+.hc-ic svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.25;}
 .hc-nm{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:5px;}
 .hc-ct{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--spore);}
 .hc-ds{font-size:10.5px;line-height:1.6;color:var(--mist);margin-top:8px;}
 
-/* VERTICAL */
 #vv{display:none;}
 #vv.on{display:block;}
 #hv.off{display:none;}
@@ -84,7 +84,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
 .vbc button:hover{color:var(--parch);}
 .vbc span{color:var(--spore);}
 .v-top{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;}
-.v-top-l .vic{font-size:38px;margin-bottom:8px;opacity:.76;}
+.v-top-l .vic{margin-bottom:14px;color:var(--spore);}
+.v-top-l .vic svg{width:42px;height:42px;stroke:currentColor;fill:none;stroke-width:1.2;}
 .v-top-l h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,64px);
   font-weight:900;letter-spacing:-.022em;line-height:1;}
 .v-top-l h1 em{font-style:italic;color:var(--spore);}
@@ -93,7 +94,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
 .vsn{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--spore);}
 .vsl{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-top:2px;}
 
-/* FILTERS */
 .f-bar{display:flex;align-items:stretch;gap:0;background:rgba(8,9,8,.90);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:100;
@@ -151,7 +151,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
   text-decoration:underline;transition:color .16s;margin-left:4px;}
 .clear-all:hover{color:var(--parch);}
 
-/* DIRECTORY */
 .dir-shell{padding:28px 40px 72px;}
 .dir-meta{display:flex;justify-content:space-between;align-items:center;
   margin-bottom:20px;flex-wrap:wrap;gap:10px;}
@@ -159,17 +158,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
 .dir-count b{color:var(--spore);}
 .view-btns{display:flex;gap:2px;}
 .vb{background:transparent;border:1px solid var(--border);color:var(--mist);
-  padding:3px 8px;font-size:12px;cursor:pointer;transition:all .15s;}
+  padding:5px 9px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;}
+.vb svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;}
 .vb.on{background:var(--spd);border-color:var(--spore);color:var(--spore);}
 .d-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:2px;}
 .list-mode .d-grid{grid-template-columns:1fr;}
 .list-mode .lc{flex-direction:row;align-items:center;padding:16px 20px;gap:16px;min-height:unset;}
+.list-mode .l-media{width:70px;height:70px;flex-shrink:0;aspect-ratio:1/1;margin-bottom:0;}
 .list-mode .l-desc{display:none;}
 .list-mode .l-meta{display:none;}
 .list-mode .l-tags{margin-top:0;margin-left:auto;flex-shrink:0;}
 .list-mode .ln{font-size:15px;}
 
-/* CARD */
 .lc{background:rgba(10,11,9,.8);border:1px solid var(--border);padding:20px;
   display:flex;flex-direction:column;position:relative;overflow:hidden;
   transition:background .2s,border-color .2s,transform .18s;animation:ci .32s both;}
@@ -178,18 +178,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
   background:var(--spore);transform:scaleY(0);transition:transform .24s;transform-origin:bottom;}
 .lc:hover{background:rgba(16,17,13,.94);border-color:var(--bh);transform:translateY(-2px);}
 .lc:hover::before{transform:scaleY(1);}
-.l-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
-.l-ic{width:32px;height:32px;background:var(--spd);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+
+.l-media{position:relative;width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,rgba(30,25,16,.6) 0%,rgba(20,20,15,.9) 100%);
+  border:1px solid var(--border);overflow:hidden;margin-bottom:14px;display:flex;align-items:center;justify-content:center;}
+.l-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.lc:hover .l-media img{transform:scale(1.04);}
+.l-media-fallback{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--spore);opacity:.55;padding:20px;text-align:center;gap:10px;width:100%;height:100%;}
+.l-media-fallback svg{width:38px;height:38px;stroke:currentColor;fill:none;stroke-width:1.1;opacity:.8;}
+.l-media-fallback .lmf-text{font-family:'Playfair Display',serif;font-style:italic;font-size:11px;line-height:1.3;letter-spacing:.01em;color:var(--cream);opacity:.65;}
+.l-media.portrait{aspect-ratio:1/1;}
+.l-media.book{aspect-ratio:2/3;}
+
+.l-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:10px;}
 .l-badge{font-size:7.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--spore);
-  border:1px solid var(--border);padding:2px 6px;background:var(--spd);white-space:nowrap;}
+  border:1px solid var(--border);padding:2px 6px;background:var(--spd);white-space:nowrap;flex-shrink:0;}
 .l-vert-tag{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--mycel);
-  border:1px solid rgba(106,140,78,.22);padding:2px 5px;background:rgba(106,140,78,.07);white-space:nowrap;}
+  border:1px solid rgba(106,140,78,.22);padding:2px 5px;background:rgba(106,140,78,.07);white-space:nowrap;flex-shrink:0;}
 .ln{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
   letter-spacing:-.01em;margin-bottom:2px;line-height:1.2;}
 .ll{font-size:9px;letter-spacing:.1em;color:var(--mist);text-transform:uppercase;
-  margin-bottom:8px;display:flex;align-items:center;gap:4px;}
-.ll::before{content:'◎';font-size:7px;color:var(--spore);}
+  margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.ll svg{width:10px;height:10px;stroke:var(--spore);fill:none;stroke-width:1.6;flex-shrink:0;}
 .l-desc{font-size:10.5px;line-height:1.76;color:var(--cream);opacity:.56;flex:1;margin-bottom:12px;}
 .l-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;}
 .l-tag{font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);
@@ -202,9 +211,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
 .l-foot{margin-top:10px;display:flex;justify-content:flex-end;}
 .l-link{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--spore);
   text-decoration:none;border:1px solid var(--border);padding:5px 10px;
-  background:var(--spd);transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+  background:var(--spd);transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
 .l-link:hover{border-color:var(--spore);background:var(--spore);color:#08090a;}
-.l-link::after{content:'↗';font-size:10px;}
+.l-link svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:1.8;}
 
 .lc.legend-card{border-color:rgba(176,140,74,.22);}
 .lc.legend-card .ln{font-size:17px;}
@@ -220,19 +229,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
 .no-res{text-align:center;padding:72px 36px;color:var(--mist);
   grid-column:1/-1;display:none;font-size:11px;letter-spacing:.08em;}
 .no-res.on{display:block;}
-.no-res-ic{font-size:40px;margin-bottom:12px;opacity:.22;display:block;}
+.no-res-ic{color:var(--spore);opacity:.3;display:block;margin:0 auto 12px;}
+.no-res-ic svg{width:44px;height:44px;stroke:currentColor;fill:none;stroke-width:1;}
 .no-res button{margin-top:12px;background:none;border:1px solid var(--border);color:var(--spore);
   padding:6px 14px;font-family:'DM Mono',monospace;font-size:9px;
   letter-spacing:.14em;text-transform:uppercase;cursor:pointer;}
 
-/* LOADING */
-.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:100px 20px;color:var(--mist);font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
-.loading-dot{width:6px;height:6px;border-radius:50%;background:var(--spore);
-  margin-bottom:14px;animation:pulse 1.2s ease-in-out infinite;}
-@keyframes pulse{0%,100%{opacity:.3;transform:scale(.85);}50%{opacity:1;transform:scale(1.15);}}
-
-/* MAP */
 .map-shell{padding:28px 40px 60px;}
 .map-controls{display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;gap:16px;margin-bottom:24px;}
@@ -281,15 +283,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
 .mush-meta b{color:var(--cream);font-weight:400;}
 .map-empty{text-align:center;padding:50px 30px;color:var(--mist);
   font-size:11px;letter-spacing:.08em;}
-.map-empty-ic{font-size:36px;display:block;margin-bottom:10px;opacity:.25;}
+.map-empty-ic{color:var(--spore);opacity:.3;display:block;margin:0 auto 10px;}
+.map-empty-ic svg{width:42px;height:42px;stroke:currentColor;fill:none;stroke-width:1;}
 
-/* FOOTER */
 footer{position:relative;z-index:10;border-top:1px solid var(--border);
   background:rgba(6,7,6,.92);padding:50px 40px 24px;}
 .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 2fr;gap:36px;align-items:start;}
 .foot-brand .fb-logo{font-family:'Playfair Display',serif;font-size:24px;
-  font-weight:900;color:var(--parch);margin-bottom:12px;letter-spacing:.02em;}
+  font-weight:900;color:var(--parch);margin-bottom:12px;letter-spacing:.02em;display:flex;align-items:center;gap:10px;}
 .foot-brand .fb-logo b{color:var(--spore);}
+.foot-brand .fb-logo svg{width:26px;height:26px;stroke:var(--spore);fill:none;stroke-width:1.2;}
 .foot-brand p{font-size:10.5px;line-height:1.8;color:var(--mist);max-width:240px;}
 .foot-col h5{font-size:9px;letter-spacing:.22em;text-transform:uppercase;
   color:var(--spore);margin-bottom:14px;}
@@ -323,10 +326,116 @@ footer{position:relative;z-index:10;border-top:1px solid var(--border);
 </head>
 <body>
 
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="i-mark" viewBox="0 0 24 24">
+      <path d="M5 11 Q5 5 12 5 Q19 5 19 11 L19 12 L5 12 Z"/>
+      <path d="M10 12 L10 19 Q10 20.5 12 20.5 Q14 20.5 14 19 L14 12"/>
+      <circle cx="9" cy="9" r=".5" fill="currentColor"/>
+      <circle cx="14" cy="8" r=".4" fill="currentColor"/>
+      <circle cx="12" cy="10" r=".4" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-all" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <ellipse cx="12" cy="12" rx="9" ry="3.5"/>
+    </symbol>
+    <symbol id="i-legends" viewBox="0 0 24 24">
+      <path d="M12 3 L13.5 9.5 L20 11 L15 15.5 L16.5 22 L12 18.5 L7.5 22 L9 15.5 L4 11 L10.5 9.5 Z"/>
+    </symbol>
+    <symbol id="i-library" viewBox="0 0 24 24">
+      <path d="M4 5 L11 5 Q12 5 12 6 L12 20 Q12 19 11 19 L4 19 Z"/>
+      <path d="M20 5 L13 5 Q12 5 12 6 L12 20 Q12 19 13 19 L20 19 Z"/>
+      <line x1="4" y1="9" x2="10" y2="9"/>
+      <line x1="14" y1="9" x2="20" y2="9"/>
+    </symbol>
+    <symbol id="i-map" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M3 12 L21 12"/>
+      <ellipse cx="12" cy="12" rx="4" ry="9"/>
+    </symbol>
+    <symbol id="i-restaurants" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="7"/>
+      <circle cx="12" cy="12" r="3.5"/>
+      <line x1="3" y1="3" x2="7" y2="7"/>
+      <line x1="21" y1="3" x2="17" y2="7"/>
+    </symbol>
+    <symbol id="i-food" viewBox="0 0 24 24">
+      <path d="M4 12 Q4 5 12 5 Q20 5 20 12 L4 12 Z"/>
+      <path d="M9 12 L9 19 Q9 20 12 20 Q15 20 15 19 L15 12"/>
+    </symbol>
+    <symbol id="i-wellness" viewBox="0 0 24 24">
+      <path d="M3 21 Q3 9 15 3 Q21 7 21 14 Q21 19 15 21 Q9 21 3 21 Z"/>
+      <path d="M3 21 Q9 15 15 9"/>
+    </symbol>
+    <symbol id="i-fashion" viewBox="0 0 24 24">
+      <path d="M12 8 Q10 8 10 6 Q10 4 12 4 Q14 4 14 6"/>
+      <path d="M12 8 L3 17 Q2 18 3 18 L21 18 Q22 18 21 17 Z"/>
+    </symbol>
+    <symbol id="i-tech" viewBox="0 0 24 24">
+      <path d="M12 3 L20 8 L20 16 L12 21 L4 16 L4 8 Z"/>
+      <circle cx="12" cy="12" r="2"/>
+      <line x1="12" y1="3" x2="12" y2="10"/>
+      <line x1="20" y1="8" x2="14" y2="11"/>
+      <line x1="4" y1="16" x2="10" y2="13"/>
+    </symbol>
+    <symbol id="i-education" viewBox="0 0 24 24">
+      <path d="M2 9 L12 5 L22 9 L12 13 Z"/>
+      <path d="M6 11 L6 16 Q6 18 12 18 Q18 18 18 16 L18 11"/>
+      <line x1="22" y1="9" x2="22" y2="14"/>
+    </symbol>
+    <symbol id="i-community" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3"/>
+      <circle cx="12" cy="12" r="6"/>
+      <circle cx="12" cy="12" r="9"/>
+    </symbol>
+    <symbol id="i-events" viewBox="0 0 24 24">
+      <path d="M12 2 L22 12 L12 22 L2 12 Z"/>
+      <path d="M7 12 L17 12"/>
+    </symbol>
+    <symbol id="i-brands" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <line x1="12" y1="7" x2="12" y2="17"/>
+      <line x1="7" y1="12" x2="17" y2="12"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M12 2 Q20 2 20 10 Q20 16 12 22 Q4 16 4 10 Q4 2 12 2 Z"/>
+      <circle cx="12" cy="10" r="3"/>
+    </symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24">
+      <path d="M7 17 L17 7"/>
+      <polyline points="9 7 17 7 17 15"/>
+    </symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="7" height="7"/>
+      <rect x="13" y="4" width="7" height="7"/>
+      <rect x="4" y="13" width="7" height="7"/>
+      <rect x="13" y="13" width="7" height="7"/>
+    </symbol>
+    <symbol id="i-list" viewBox="0 0 24 24">
+      <line x1="4" y1="6" x2="20" y2="6"/>
+      <line x1="4" y1="12" x2="20" y2="12"/>
+      <line x1="4" y1="18" x2="20" y2="18"/>
+    </symbol>
+    <symbol id="i-portrait" viewBox="0 0 24 24">
+      <circle cx="12" cy="9" r="4"/>
+      <path d="M4 21 Q4 14 12 14 Q20 14 20 21"/>
+    </symbol>
+    <symbol id="i-book" viewBox="0 0 24 24">
+      <path d="M4 4 L18 4 Q20 4 20 6 L20 20 Q20 18 18 18 L4 18 Z"/>
+      <line x1="8" y1="8" x2="16" y2="8"/>
+      <line x1="8" y1="11" x2="16" y2="11"/>
+      <line x1="8" y1="14" x2="13" y2="14"/>
+    </symbol>
+  </defs>
+</svg>
+
 <div id="bg"></div><div id="soil-glow"></div><div id="mycel-net"></div><div id="grain"></div>
 
 <nav>
-  <a href="#" class="n-logo" onclick="goHome(event)">Mush<b>mor</b></a>
+  <a href="#" class="n-logo" onclick="goHome(event)">
+    <svg><use href="#i-mark"/></svg>
+    Mush<b>mor</b>
+  </a>
   <ul class="n-links" id="navLinks"></ul>
 </nav>
 
@@ -348,7 +457,7 @@ footer{position:relative;z-index:10;border-top:1px solid var(--border);
 <footer>
   <div class="foot-grid">
     <div class="foot-brand">
-      <div class="fb-logo">Mush<b>mor</b></div>
+      <div class="fb-logo"><svg><use href="#i-mark"/></svg>Mush<b>mor</b></div>
       <p>The world's living platform for mushroom culture — where nature's oldest intelligence meets human curiosity.</p>
     </div>
     <div class="foot-col">
@@ -393,33 +502,29 @@ footer{position:relative;z-index:10;border-top:1px solid var(--border);
 </footer>
 
 <script>
-// ═══════════════════════════════════════
-// SUPABASE CONFIG
-// ═══════════════════════════════════════
 const SUPABASE_URL = 'https://adoryjvjmrdbsbamzzjk.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFkb3J5anZqbXJkYnNiYW16emprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NjE2MzMsImV4cCI6MjA5MjEzNzYzM30.ZUFzKwtwT7KYnNGMujDjPIIoUJrzJaHl1ELK_w09go0';
 
 async function sbFetch(table, params='') {
   const url = `${SUPABASE_URL}/rest/v1/${table}?${params}`;
-  const r = await fetch(url, {
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
-  });
+  const r = await fetch(url, { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } });
   if (!r.ok) throw new Error(`Supabase error: ${r.status}`);
   return r.json();
 }
 
-// ═══════════════════════════════════════
-// VERTICAL METADATA (UI config only; data comes from Supabase)
-// ═══════════════════════════════════════
+function icon(id, extraClass='') {
+  return `<svg class="${extraClass}"><use href="#i-${id}"/></svg>`;
+}
+
 const VERTICALS = [
-  {id:'all',name:'All Listings',icon:'◉',
+  {id:'all',name:'All Listings',iconId:'all',
    desc:'Every brand, organization, person, and community across all worlds of the Mushmor platform.',
    stats:[{n:'—',l:'Total'},{n:'—',l:'Countries'},{n:'11',l:'Worlds'}],filters:[]},
-  {id:'legends',name:'Mushroom Legends',icon:'✦',
+  {id:'legends',name:'Legends',iconId:'legends',
    desc:'The visionaries, scientists, artists, and advocates who have dedicated their lives to revealing the intelligence of fungi.',
    stats:[{n:'—',l:'Legends'},{n:'—',l:'Countries'},{n:'Lifetimes',l:'of work'}],
    filters:[{key:'field',label:'Field',opts:['All','Science','Ethnomycology','Advocacy','Art & Culture','Medicine','Cultivation','Philosophy']}]},
-  {id:'library',name:'The Library',icon:'📚',
+  {id:'library',name:'The Library',iconId:'library',
    desc:'Every essential mushroom book, article, journal, and publication from around the world, in every language.',
    stats:[{n:'—',l:'Titles'},{n:'—',l:'Languages'},{n:'120',l:'Years of writing'}],
    filters:[
@@ -427,67 +532,67 @@ const VERTICALS = [
      {key:'topic',label:'Topic',opts:['All','Identification','Cultivation','Science','Cooking','Psychedelic','History','Philosophy','Memoir']},
      {key:'language',label:'Language',opts:['All','English','Spanish','French','German','Italian','Japanese','Mandarin','Portuguese','Russian','Dutch','Czech','Finnish']}
    ]},
-  {id:'map',name:'Mushroom World Map',icon:'🗺️',
+  {id:'map',name:'Mushroom World Map',iconId:'map',
    desc:'A living atlas of mushroom seasons around the world. Click any region to see what\'s growing now.',
    stats:[{n:'—',l:'Regions'},{n:'—',l:'Species'},{n:'Year-round',l:'Data'}],
    filters:[],isMap:true},
-  {id:'restaurants',name:'Restaurants',icon:'🍽️',
+  {id:'restaurants',name:'Restaurants',iconId:'restaurants',
    desc:'The global directory of mushroom-specialized restaurants — from Michelin-starred fungi tasting menus to neighborhood gems.',
    stats:[{n:'—',l:'Restaurants'},{n:'—',l:'Countries'},{n:'—',l:'Michelin'}],
    filters:[
      {key:'type',label:'Cuisine',opts:['All','Modern European','Japanese','Italian','French','Nordic','Asian Fusion','Vegan','American','Mediterranean']},
      {key:'specialty',label:'Tier',opts:['All','Michelin Starred','Fine Dining','Casual Fine','Bistro','Casual','Pop-Up']}
    ]},
-  {id:'food',name:'Food & Gastronomy',icon:'🍄',
+  {id:'food',name:'Food & Gastronomy',iconId:'food',
    desc:'Restaurants, growers, ingredient suppliers, chefs, food brands, and culinary innovators.',
    stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$28B',l:'Market'}],
    filters:[
      {key:'type',label:'Type',opts:['All','Restaurant','Grower','Supplier','Brand','Chef','Distributor','Market']},
      {key:'specialty',label:'Specialty',opts:['All','Gourmet','Medicinal','Functional','Fermented','Dried','Fresh','Foraged']}
    ]},
-  {id:'wellness',name:'Wellness & Adaptogens',icon:'✦',
+  {id:'wellness',name:'Wellness & Adaptogens',iconId:'wellness',
    desc:'Supplement brands, practitioners, research institutes, and wellness companies.',
    stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$24B',l:'Market 2030'}],
    filters:[
      {key:'type',label:'Type',opts:['All','Brand','Practitioner','Research','Clinic','Supplement','Tonic']},
      {key:'specialty',label:'Focus',opts:['All','Cognitive','Immunity','Energy','Stress','Sleep','Gut','Longevity']}
    ]},
-  {id:'fashion',name:'Fashion & Materials',icon:'◈',
+  {id:'fashion',name:'Fashion & Materials',iconId:'fashion',
    desc:'Mycelium leather innovators, fungi textile designers, sustainable fashion brands.',
    stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$9B',l:'Bio-Materials 2028'}],
    filters:[
      {key:'type',label:'Type',opts:['All','Brand','Material','Designer','Manufacturer','Research','Retailer']},
      {key:'specialty',label:'Material',opts:['All','Mycelium Leather','Fungi Dye','Myco-Textile','Composite','Packaging']}
    ]},
-  {id:'tech',name:'Technology & Biotech',icon:'⬡',
+  {id:'tech',name:'Technology & Biotech',iconId:'tech',
    desc:'Biomaterial companies, myco-computing researchers, agri-tech innovators.',
    stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$4.2B',l:'Myco-Biotech'}],
    filters:[
      {key:'type',label:'Type',opts:['All','Startup','Research Lab','University','Corporate R&D','Non-Profit']},
      {key:'field',label:'Field',opts:['All','Biomaterials','Computing','Agriculture','Bioremediation','Medicine','Packaging','Architecture']}
    ]},
-  {id:'education',name:'Education & Research',icon:'◎',
+  {id:'education',name:'Education & Research',iconId:'education',
    desc:'Universities, courses, societies, field schools, and research programs.',
    stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'2.1M',l:'Active Students'}],
    filters:[
      {key:'type',label:'Type',opts:['All','University','Online Course','Society','Field School','Research Program']},
      {key:'specialty',label:'Level',opts:['All','Beginner','Intermediate','Advanced','Professional','Academic']}
    ]},
-  {id:'community',name:'Community & Culture',icon:'◉',
+  {id:'community',name:'Community & Culture',iconId:'community',
    desc:'Growers\' networks, foraging clubs, online communities, and cultural movements.',
    stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'5M+',l:'Members'}],
    filters:[
      {key:'type',label:'Type',opts:['All','Online Forum','Local Club','Growers Network','Cultural Org','Newsletter','Social Media']},
      {key:'field',label:'Focus',opts:['All','Foraging','Cultivation','Science','Culture','Psychedelic','Culinary']}
    ]},
-  {id:'events',name:'Events & Experiences',icon:'◇',
+  {id:'events',name:'Events & Experiences',iconId:'events',
    desc:'Festivals, forays, conferences, retreats, pop-ups, and gatherings.',
    stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'500k+',l:'Attendees/Year'}],
    filters:[
      {key:'type',label:'Type',opts:['All','Festival','Conference','Foray','Retreat','Pop-Up','Competition']},
      {key:'field',label:'Theme',opts:['All','Foraging','Cultivation','Culinary','Science','Wellness','Cultural','Psychedelic']}
    ]},
-  {id:'brands',name:'Brand Marketplace',icon:'⊕',
+  {id:'brands',name:'Brand Marketplace',iconId:'brands',
    desc:'The curated global directory of mushroom-forward consumer and professional brands.',
    stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$86B',l:'Market 2030'}],
    filters:[
@@ -498,26 +603,17 @@ const VERTICALS = [
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// GLOBAL DATA (fetched on load)
 let ALL_LISTINGS = [];
 let ALL_REGIONS = [];
 let ALL_MUSHROOMS = [];
-
-// STATE
 let cur = null, af = {}, sq = '', vm = 'grid';
 let mapMonth = new Date().getMonth();
 let mapRegion = null;
 
-// ═══════════════════════════════════════
-// INITIAL LOAD
-// ═══════════════════════════════════════
 async function init() {
-  // Build nav + home with counts placeholder
   buildNav();
   buildHome();
-
   try {
-    // Fetch everything in parallel
     const [listings, regions, mushrooms] = await Promise.all([
       sbFetch('listings', 'select=*&status=eq.published&order=created_at.desc&limit=1000'),
       sbFetch('map_regions', 'select=*'),
@@ -526,8 +622,6 @@ async function init() {
     ALL_LISTINGS = listings;
     ALL_REGIONS = regions;
     ALL_MUSHROOMS = mushrooms;
-
-    // Update home counts with real data
     updateHomeCounts();
   } catch (err) {
     console.error('Failed to load data:', err);
@@ -542,10 +636,9 @@ function buildNav() {
     const li = document.createElement('li');
     const shortName = v.name === 'Mushroom World Map' ? 'Map'
       : v.name === 'The Library' ? 'Library'
-      : v.name === 'Mushroom Legends' ? 'Legends'
       : v.name === 'All Listings' ? 'All'
       : v.name.split(' ')[0];
-    li.innerHTML = `<a data-id="${v.id}" onclick="goto('${v.id}',event)">${v.icon} ${shortName}</a>`;
+    li.innerHTML = `<a data-id="${v.id}" onclick="goto('${v.id}',event)">${icon(v.iconId)} ${shortName}</a>`;
     navEl.appendChild(li);
   });
 }
@@ -556,7 +649,7 @@ function buildHome() {
   VERTICALS.forEach(v => {
     const c = document.createElement('div');
     c.className = 'hc';
-    c.innerHTML = `<div class="hc-ic">${v.icon}</div><div class="hc-nm">${v.name}</div><div class="hc-ct" id="hc-${v.id}">${v.stats[0].n} ${v.stats[0].l}</div><div class="hc-ds">${v.desc.split('.')[0]}.</div>`;
+    c.innerHTML = `<div class="hc-ic">${icon(v.iconId)}</div><div class="hc-nm">${v.name}</div><div class="hc-ct" id="hc-${v.id}">${v.stats[0].n} ${v.stats[0].l}</div><div class="hc-ds">${v.desc.split('.')[0]}.</div>`;
     c.onclick = () => goto(v.id);
     homeGrid.appendChild(c);
   });
@@ -568,7 +661,6 @@ function updateHomeCounts() {
     if (v.id === 'all') count = ALL_LISTINGS.length;
     else if (v.id === 'map') count = ALL_REGIONS.length;
     else count = ALL_LISTINGS.filter(l => l.vertical === v.id).length;
-
     const el = document.getElementById(`hc-${v.id}`);
     if (el) el.textContent = `${count}+ ${v.stats[0].l}`;
   });
@@ -600,7 +692,6 @@ function goto(id, e) {
 
 function buildHero() {
   const v = cur;
-  // Compute live stats from data
   const liveStats = [...v.stats];
   if (v.id === 'all') {
     liveStats[0] = {n: `${ALL_LISTINGS.length}`, l: 'Total'};
@@ -617,14 +708,11 @@ function buildHero() {
   document.getElementById('vHero').innerHTML = `
     <div class="vbc"><button onclick="goHome()">← Mushmor</button><span>/</span><span>${v.name}</span></div>
     <div class="v-top">
-      <div class="v-top-l"><div class="vic">${v.icon}</div><h1>${v.name}</h1><div class="v-stats">${st}</div></div>
+      <div class="v-top-l"><div class="vic">${icon(v.iconId)}</div><h1>${v.name}</h1><div class="v-stats">${st}</div></div>
       <p class="v-top-r">${v.desc}</p>
     </div>`;
 }
 
-// ═══════════════════════════════════════
-// FILTERS
-// ═══════════════════════════════════════
 function buildFilters() {
   const v = cur;
   const fbar = document.getElementById('fBar');
@@ -636,8 +724,8 @@ function buildFilters() {
       <div class="dir-meta">
         <span class="dir-count"><b id="rCount">0</b> listings</span>
         <div class="view-btns">
-          <button class="vb on" id="gbtn" onclick="setView('grid')" title="Grid">⊞</button>
-          <button class="vb" id="lbtn" onclick="setView('list')" title="List">☰</button>
+          <button class="vb on" id="gbtn" onclick="setView('grid')" title="Grid">${icon('grid')}</button>
+          <button class="vb" id="lbtn" onclick="setView('list')" title="List">${icon('list')}</button>
         </div>
       </div>
       <div class="d-grid" id="dGrid"></div>
@@ -725,9 +813,23 @@ function setView(mode) {
   buildGrid();
 }
 
-// ═══════════════════════════════════════
-// GRID
-// ═══════════════════════════════════════
+function fallbackHTML(listing, variant) {
+  const iconId = variant === 'portrait' ? 'portrait' : variant === 'book' ? 'book' : (VERTICALS.find(v => v.id === listing.vertical)?.iconId || 'all');
+  const subtext = variant === 'book' && listing.author ? listing.author
+    : variant === 'portrait' ? (listing.field || listing.country || '')
+    : (listing.location || '');
+  return `<div class="l-media-fallback">${icon(iconId)}<span class="lmf-text">${subtext}</span></div>`;
+}
+
+function mediaHTML(listing, variant) {
+  const klass = variant === 'portrait' ? 'l-media portrait' : variant === 'book' ? 'l-media book' : 'l-media';
+  if (listing.image_url) {
+    const fallback = fallbackHTML(listing, variant).replace(/"/g, '&quot;');
+    return `<div class="${klass}"><img src="${listing.image_url}" alt="${listing.name}" loading="lazy" onerror="this.parentNode.innerHTML=&quot;${fallback.replace(/&quot;/g, '\\&quot;')}&quot;"></div>`;
+  }
+  return `<div class="${klass}">${fallbackHTML(listing, variant)}</div>`;
+}
+
 function buildGrid() {
   const v = cur, g = document.getElementById('dGrid');
   if (!g) return;
@@ -736,7 +838,6 @@ function buildGrid() {
   const isLegends = v.id === 'legends';
   const isLibrary = v.id === 'library';
 
-  // Choose source rows
   const source = isAll ? ALL_LISTINGS : ALL_LISTINGS.filter(l => l.vertical === v.id);
 
   const filtered = source.filter(l => {
@@ -756,16 +857,15 @@ function buildGrid() {
   document.getElementById('rCount').textContent = filtered.length;
 
   if (!filtered.length) {
-    g.innerHTML = `<div class="no-res on"><span class="no-res-ic">🍄</span>No listings match your filters.<br><button onclick="clearAll()">Clear filters</button></div>`;
+    g.innerHTML = `<div class="no-res on"><span class="no-res-ic">${icon('all')}</span>No listings match your filters.<br><button onclick="clearAll()">Clear filters</button></div>`;
     return;
   }
 
   filtered.forEach((l, i) => {
     const meta = Array.isArray(l.meta) ? l.meta : [];
-    const metaHTML = meta.map(m => `<div class="lmi"><span class="lml">${m.l}</span><span class="lmv">${m.v}</span></div>`).join('');
-    const tagsHTML = (l.tags || []).map(t => `<span class="l-tag">${t}</span>`).join('');
+    const metaStr = meta.map(m => `<div class="lmi"><span class="lml">${m.l}</span><span class="lmv">${m.v}</span></div>`).join('');
+    const tagsStr = (l.tags || []).map(t => `<span class="l-tag">${t}</span>`).join('');
 
-    // Badge logic
     let badge;
     if (isAll) {
       const vName = VERTICALS.find(x => x.id === l.vertical)?.name.split(' ')[0] || '';
@@ -778,7 +878,10 @@ function buildGrid() {
 
     const linkLabel = isLibrary ? 'Find Book' : isLegends ? 'Visit Site' : 'Go to Website';
     const url = l.url || '#';
-    const linkHTML = `<a class="l-link" href="${url}" target="_blank" rel="noopener">${linkLabel}</a>`;
+    const linkHTML = `<a class="l-link" href="${url}" target="_blank" rel="noopener">${linkLabel} ${icon('ext')}</a>`;
+
+    const variant = isLegends ? 'portrait' : isLibrary ? 'book' : 'default';
+    const media = mediaHTML(l, variant);
 
     const c = document.createElement('div');
     c.className = 'lc' + (isLegends ? ' legend-card' : '') + (isLibrary ? ' book-card' : '');
@@ -786,41 +889,38 @@ function buildGrid() {
 
     if (isLegends) {
       c.innerHTML = `
-        <div class="l-hd"><div class="l-ic">${l.icon || '✦'}</div>${badge}</div>
-        <div class="ln">${l.name}</div>
-        <div class="ll">${l.location || ''}</div>
+        ${media}
+        <div class="l-hd"><div class="ln">${l.name}</div>${badge}</div>
+        <div class="ll">${icon('pin')}${l.location || ''}</div>
         ${l.quote ? `<p class="legend-quote">"${l.quote}"</p>` : ''}
         <p class="l-desc">${l.description || ''}</p>
-        <div class="l-tags">${tagsHTML}</div>
-        <div class="l-meta">${metaHTML}</div>
+        <div class="l-tags">${tagsStr}</div>
+        <div class="l-meta">${metaStr}</div>
         <div class="l-foot">${linkHTML}</div>`;
     } else if (isLibrary) {
       c.innerHTML = `
-        <div class="l-hd"><div class="l-ic">${l.icon || '📖'}</div>${badge}</div>
-        <div class="ln">${l.name}</div>
+        ${media}
+        <div class="l-hd"><div class="ln">${l.name}</div>${badge}</div>
         ${l.author ? `<div class="book-author">by ${l.author}</div>` : ''}
-        <div class="ll">${l.location || ''} · ${l.type || ''}</div>
+        <div class="ll">${icon('pin')}${l.location || ''} · ${l.type || ''}</div>
         <p class="l-desc">${l.description || ''}</p>
-        <div class="l-tags">${tagsHTML}</div>
-        <div class="l-meta">${metaHTML}</div>
+        <div class="l-tags">${tagsStr}</div>
+        <div class="l-meta">${metaStr}</div>
         <div class="l-foot">${linkHTML}</div>`;
     } else {
       c.innerHTML = `
-        <div class="l-hd"><div class="l-ic">${l.icon || '🍄'}</div>${badge}</div>
-        <div class="ln">${l.name}</div>
-        <div class="ll">${l.location || ''}</div>
+        ${media}
+        <div class="l-hd"><div class="ln">${l.name}</div>${badge}</div>
+        <div class="ll">${icon('pin')}${l.location || ''}</div>
         <p class="l-desc">${l.description || ''}</p>
-        <div class="l-tags">${tagsHTML}</div>
-        <div class="l-meta">${metaHTML}</div>
+        <div class="l-tags">${tagsStr}</div>
+        <div class="l-meta">${metaStr}</div>
         <div class="l-foot">${linkHTML}</div>`;
     }
     g.appendChild(c);
   });
 }
 
-// ═══════════════════════════════════════
-// MAP VIEW
-// ═══════════════════════════════════════
 function buildMap() {
   document.getElementById('fBar').innerHTML = '';
   const body = document.getElementById('vBody');
@@ -843,7 +943,7 @@ function buildMap() {
       </div>
       <div class="map-detail" id="mapDetail">
         <div class="map-empty">
-          <span class="map-empty-ic">🌍</span>
+          <span class="map-empty-ic">${icon('map')}</span>
           Click any region on the map above to explore mushrooms growing there in <b id="emptyMonth"></b>.
         </div>
       </div>
@@ -906,7 +1006,7 @@ function buildMap() {
 
     const numLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     numLabel.setAttribute('x', r.cx);
-    numLabel.setAttribute('y', r.cy + 4);
+    numLabel.setAttribute('y', parseFloat(r.cy) + 4);
     numLabel.setAttribute('text-anchor', 'middle');
     numLabel.setAttribute('font-family', "'DM Mono', monospace");
     numLabel.setAttribute('font-size', '10');
@@ -926,11 +1026,8 @@ function buildMap() {
     layer.appendChild(g);
   });
 
-  if (mapRegion) {
-    showRegionDetail();
-  } else {
-    document.getElementById('emptyMonth').textContent = MONTHS[mapMonth];
-  }
+  if (mapRegion) showRegionDetail();
+  else document.getElementById('emptyMonth').textContent = MONTHS[mapMonth];
 }
 
 function selectRegion(id) {
@@ -985,7 +1082,6 @@ function showRegionDetail() {
     </div>`;
 }
 
-// Start
 init();
 </script>
 </body>
