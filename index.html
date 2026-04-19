@@ -5,1256 +5,988 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mushmor — The World's Mushroom Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,300;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0b0a07;
-  --deep: #131109;
-  --parchment: #f2ece0;
-  --cream: #e4dcc8;
-  --spore: #c4a45a;
-  --spore-light: rgba(196,164,90,0.15);
-  --mycel: #6e9e5a;
-  --glow: #9ed4b4;
-  --ember: #c85a38;
-  --mist: #7a8e78;
-  --card-bg: rgba(20,18,12,0.85);
-  --border: rgba(196,164,90,0.18);
-  --border-hover: rgba(196,164,90,0.5);
+  --ink:#08090a; --soil:#0e0d0b; --parch:#ede6d4; --cream:#d4cbb4;
+  --spore:#b08c4a; --spd:rgba(176,140,74,0.13); --mycel:#6a8c4e;
+  --mist:#5a6858; --border:rgba(176,140,74,0.15); --bh:rgba(176,140,74,0.42);
+  --card:rgba(10,11,9,0.82);
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--soil);color:var(--parch);font-family:'DM Mono',monospace;overflow-x:hidden;min-height:100vh;}
 
-body {
-  background: var(--ink);
-  color: var(--parchment);
-  font-family: 'DM Mono', monospace;
-  overflow-x: hidden;
-  min-height: 100vh;
-  cursor: none;
-}
+/* ── UNDERGROUND BG ── */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 100%,rgba(28,22,10,0.9) 0%,transparent 60%),
+    radial-gradient(ellipse 80% 40% at 20% 80%,rgba(18,22,12,0.7) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 50% at 80% 60%,rgba(14,18,10,0.6) 0%,transparent 50%),
+    linear-gradient(180deg,#060708 0%,#0b0c09 40%,#0e0d0a 100%);}
+#soil-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 30% at 50% 110%,rgba(100,72,20,0.18) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 20% at 15% 95%,rgba(80,60,18,0.12) 0%,transparent 50%),
+    radial-gradient(ellipse 35% 25% at 85% 90%,rgba(90,68,16,0.10) 0%,transparent 50%);}
+#mycel-net{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='900' viewBox='0 0 1440 900'%3E%3Cdefs%3E%3Cfilter id='blur'%3E%3CfeGaussianBlur stdDeviation='1.2'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23blur)'%3E%3Cg stroke='rgba(140%2C110%2C45%2C0.22)' stroke-width='0.8' fill='none' stroke-linecap='round'%3E%3Cpath d='M0,820 Q80,750 180,780 Q280,810 360,740 Q440,670 520,710 Q600,750 680,680 Q760,610 840,650 Q920,690 1000,620 Q1080,550 1160,590 Q1240,630 1320,560 Q1380,510 1440,540'/%3E%3Cpath d='M0,860 Q100,800 200,830 Q300,860 380,790 Q460,720 560,760 Q640,790 720,720 Q800,650 900,700 Q980,740 1060,660 Q1140,580 1220,630 Q1300,670 1440,600'/%3E%3Cpath d='M0,780 Q60,700 140,730 Q230,760 300,690 Q380,620 460,660 Q540,700 630,640 Q710,580 800,620 Q880,655 960,590 Q1050,520 1140,560 Q1220,595 1310,530 Q1380,480 1440,500'/%3E%3Cpath d='M180,900 Q200,840 240,800 Q280,760 320,720 Q360,680 420,710'/%3E%3Cpath d='M360,900 Q380,850 410,810 Q450,760 510,790 Q570,820 620,770'/%3E%3Cpath d='M560,900 Q590,840 630,800 Q680,750 740,780'/%3E%3Cpath d='M760,900 Q780,850 820,810 Q870,760 930,790'/%3E%3Cpath d='M960,900 Q990,840 1030,800 Q1080,750 1140,770'/%3E%3Cpath d='M1160,900 Q1190,850 1230,810 Q1280,760 1340,780'/%3E%3C/g%3E%3Cg fill='rgba(160%2C125%2C50%2C0.35)'%3E%3Ccircle cx='180' cy='780' r='1.8'/%3E%3Ccircle cx='360' cy='740' r='1.5'/%3E%3Ccircle cx='520' cy='710' r='2.0'/%3E%3Ccircle cx='680' cy='680' r='1.6'/%3E%3Ccircle cx='840' cy='650' r='1.9'/%3E%3Ccircle cx='1000' cy='620' r='1.7'/%3E%3Ccircle cx='1160' cy='590' r='1.8'/%3E%3Ccircle cx='1320' cy='560' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-size:cover;background-position:center bottom;opacity:0.9;}
+#grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='280' height='280' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:280px 280px;}
 
-/* ─── PERSISTENT BACKGROUND ─── */
-#bg-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 1;
-}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:58px;padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(8,9,8,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);}
+.n-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;
+  color:var(--parch);text-decoration:none;letter-spacing:.03em;}
+.n-logo b{color:var(--spore);}
+.n-links{display:flex;gap:1px;list-style:none;overflow-x:auto;max-width:80%;}
+.n-links a{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mist);text-decoration:none;padding:5px 10px;border:1px solid transparent;
+  transition:color .2s,border-color .2s,background .2s;white-space:nowrap;cursor:pointer;}
+.n-links a:hover,.n-links a.on{color:var(--spore);border-color:var(--border);background:var(--spd);}
 
-/* Grain overlay */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-}
+#app{position:relative;z-index:10;padding-top:58px;min-height:100vh;}
 
-/* Floating mushroom silhouettes */
-.bg-shrooms {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
+/* HOME */
+#hv{padding:80px 40px 100px;}
+.h-eye{font-size:9px;letter-spacing:.34em;text-transform:uppercase;color:var(--mycel);margin-bottom:22px;}
+.h-hl{font-family:'Playfair Display',serif;font-size:clamp(50px,7.5vw,104px);
+  font-weight:900;line-height:.91;letter-spacing:-.024em;}
+.h-hl em{font-style:italic;color:var(--spore);}
+.h-sub{margin-top:28px;font-size:12px;line-height:2;color:var(--cream);opacity:.60;max-width:380px;}
+.h-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:56px;}
+.hc{background:rgba(10,11,9,.78);border:1px solid var(--border);padding:24px 20px;cursor:pointer;
+  transition:background .22s,border-color .22s,transform .2s;position:relative;overflow:hidden;}
+.hc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--spore);transform:scaleX(0);transition:transform .24s;transform-origin:left;}
+.hc:hover{background:rgba(18,19,15,.94);border-color:var(--bh);transform:translateY(-2px);}
+.hc:hover::after{transform:scaleX(1);}
+.hc-ic{font-size:22px;margin-bottom:12px;opacity:.72;}
+.hc-nm{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:5px;}
+.hc-ct{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--spore);}
+.hc-ds{font-size:10.5px;line-height:1.6;color:var(--mist);margin-top:8px;}
 
-.bg-shroom {
-  position: absolute;
-  opacity: 0;
-  animation: shroomDrift linear infinite;
-  fill: var(--spore);
-}
+/* VERTICAL */
+#vv{display:none;}
+#vv.on{display:block;}
+#hv.off{display:none;}
+.v-hero{padding:46px 40px 38px;border-bottom:1px solid var(--border);}
+.vbc{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);
+  margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.vbc button{background:none;border:none;color:var(--mist);cursor:pointer;
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  transition:color .18s;padding:0;}
+.vbc button:hover{color:var(--parch);}
+.vbc span{color:var(--spore);}
+.v-top{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;}
+.v-top-l .vic{font-size:38px;margin-bottom:8px;opacity:.76;}
+.v-top-l h1{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,64px);
+  font-weight:900;letter-spacing:-.022em;line-height:1;}
+.v-top-l h1 em{font-style:italic;color:var(--spore);}
+.v-top-r{font-size:11px;line-height:1.9;color:var(--cream);opacity:.54;max-width:340px;flex-shrink:0;}
+.v-stats{display:flex;gap:28px;margin-top:22px;}
+.vsn{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--spore);}
+.vsl{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-top:2px;}
 
-@keyframes shroomDrift {
-  0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(1); }
-  10%  { opacity: 1; }
-  90%  { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-120vh) rotate(25deg) scale(1.1); }
-}
+/* FILTERS */
+.f-bar{display:flex;align-items:stretch;gap:0;background:rgba(8,9,8,.90);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);position:sticky;top:58px;z-index:100;
+  height:44px;overflow:visible;padding:0 40px;}
+.fg{position:relative;display:flex;align-items:stretch;}
+.fg-btn{display:flex;align-items:center;gap:6px;padding:0 14px;height:44px;
+  background:transparent;border:none;border-right:1px solid var(--border);
+  color:var(--mist);font-family:'DM Mono',monospace;
+  font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+  cursor:pointer;transition:color .16s,background .16s;white-space:nowrap;user-select:none;}
+.fg-btn:hover{color:var(--parch);background:rgba(176,140,74,.05);}
+.fg-btn.has-val{color:var(--spore);}
+.fg-pill{background:var(--spore);color:#08090a;font-size:7.5px;font-weight:500;
+  letter-spacing:.08em;padding:2px 6px;display:none;
+  max-width:72px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fg-arrow{font-size:7px;opacity:.5;transition:transform .2s,opacity .16s;display:inline-block;}
+.fg.open .fg-arrow{transform:rotate(180deg);opacity:.9;}
+.fg-panel{position:absolute;top:calc(100% + 1px);left:0;
+  background:rgba(10,11,9,.97);border:1px solid var(--border);
+  padding:6px 0;min-width:170px;max-height:360px;overflow-y:auto;
+  opacity:0;transform:translateY(-5px);pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease;
+  z-index:300;box-shadow:0 8px 32px rgba(0,0,0,.6);}
+.fg.open .fg-panel{opacity:1;transform:translateY(0);pointer-events:all;}
+.fo{display:flex;align-items:center;gap:8px;padding:7px 14px;
+  background:transparent;border:none;color:var(--cream);opacity:.6;
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.1em;
+  text-align:left;cursor:pointer;width:100%;
+  transition:color .14s,opacity .14s,background .14s;white-space:nowrap;}
+.fo::before{content:'';width:5px;height:5px;border-radius:50%;
+  border:1px solid rgba(176,140,74,.3);flex-shrink:0;
+  transition:background .14s,border-color .14s;}
+.fo:hover{color:var(--parch);opacity:1;background:rgba(176,140,74,.06);}
+.fo.on{color:var(--spore);opacity:1;background:rgba(176,140,74,.08);}
+.fo.on::before{background:var(--spore);border-color:var(--spore);}
+.f-div{width:1px;background:var(--border);align-self:stretch;}
+.f-search-wrap{margin-left:auto;display:flex;align-items:center;padding-left:14px;}
+.fq{background:transparent;border:1px solid var(--border);color:var(--parch);
+  padding:5px 12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.09em;
+  width:185px;outline:none;transition:border-color .16s;height:28px;}
+.fq::placeholder{color:var(--mist);opacity:.55;}
+.fq:focus{border-color:var(--spore);}
 
-/* ─── CURSOR ─── */
-.cursor { position:fixed; width:10px; height:10px; background:var(--spore); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform 0.12s, background 0.3s; mix-blend-mode: difference; }
-.cursor-ring { position:fixed; width:32px; height:32px; border:1px solid rgba(196,164,90,0.6); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:transform 0.4s cubic-bezier(.17,.67,.35,1.2), opacity 0.3s; }
-.cursor.big { transform:translate(-50%,-50%) scale(2.5); }
-.cursor-ring.big { transform:translate(-50%,-50%) scale(1.8); opacity:0.8; }
+.active-filters{padding:8px 40px;display:none;gap:6px;align-items:center;flex-wrap:wrap;
+  background:rgba(8,9,8,.7);border-bottom:1px solid var(--border);
+  font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);}
+.active-filters.show{display:flex;}
+.af-chip{display:flex;align-items:center;gap:5px;border:1px solid var(--border);
+  padding:3px 8px;color:var(--spore);font-size:8.5px;cursor:pointer;
+  transition:border-color .16s;background:var(--spd);}
+.af-chip:hover{border-color:var(--bh);}
+.af-chip span{opacity:.6;}
+.clear-all{background:none;border:none;cursor:pointer;color:var(--mist);
+  font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:underline;transition:color .16s;margin-left:4px;}
+.clear-all:hover{color:var(--parch);}
 
-/* ─── NAV ─── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 200;
-  padding: 0 48px;
-  height: 68px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(11,10,7,0.9);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
+/* DIRECTORY */
+.dir-shell{padding:28px 40px 72px;}
+.dir-meta{display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.dir-count{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--mist);}
+.dir-count b{color:var(--spore);}
+.view-btns{display:flex;gap:2px;}
+.vb{background:transparent;border:1px solid var(--border);color:var(--mist);
+  padding:3px 8px;font-size:12px;cursor:pointer;transition:all .15s;}
+.vb.on{background:var(--spd);border-color:var(--spore);color:var(--spore);}
+.d-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:2px;}
+.list-mode .d-grid{grid-template-columns:1fr;}
+.list-mode .lc{flex-direction:row;align-items:center;padding:16px 20px;gap:16px;min-height:unset;}
+.list-mode .l-desc{display:none;}
+.list-mode .l-meta{display:none;}
+.list-mode .l-tags{margin-top:0;margin-left:auto;flex-shrink:0;}
+.list-mode .ln{font-size:15px;}
 
-.nav-logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  font-weight: 900;
-  color: var(--parchment);
-  text-decoration: none;
-  letter-spacing: 0.03em;
-  cursor: none;
-}
-.nav-logo span { color: var(--spore); }
+/* CARD */
+.lc{background:rgba(10,11,9,.8);border:1px solid var(--border);padding:20px;
+  display:flex;flex-direction:column;position:relative;overflow:hidden;
+  transition:background .2s,border-color .2s,transform .18s;animation:ci .32s both;}
+@keyframes ci{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.lc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+  background:var(--spore);transform:scaleY(0);transition:transform .24s;transform-origin:bottom;}
+.lc:hover{background:rgba(16,17,13,.94);border-color:var(--bh);transform:translateY(-2px);}
+.lc:hover::before{transform:scaleY(1);}
+.l-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.l-ic{width:32px;height:32px;background:var(--spd);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.l-badge{font-size:7.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--spore);
+  border:1px solid var(--border);padding:2px 6px;background:var(--spd);white-space:nowrap;}
+.l-vert-tag{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--mycel);
+  border:1px solid rgba(106,140,78,.22);padding:2px 5px;background:rgba(106,140,78,.07);white-space:nowrap;}
+.ln{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
+  letter-spacing:-.01em;margin-bottom:2px;line-height:1.2;}
+.ll{font-size:9px;letter-spacing:.1em;color:var(--mist);text-transform:uppercase;
+  margin-bottom:8px;display:flex;align-items:center;gap:4px;}
+.ll::before{content:'◎';font-size:7px;color:var(--spore);}
+.l-desc{font-size:10.5px;line-height:1.76;color:var(--cream);opacity:.56;flex:1;margin-bottom:12px;}
+.l-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;}
+.l-tag{font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist);
+  border:1px solid rgba(90,104,88,.24);padding:2px 5px;}
+.l-meta{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);
+  display:flex;gap:14px;flex-wrap:wrap;}
+.lmi{display:flex;flex-direction:column;gap:1px;}
+.lml{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);}
+.lmv{font-size:10px;color:var(--cream);}
+.l-foot{margin-top:10px;display:flex;justify-content:flex-end;}
+.l-link{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--spore);
+  text-decoration:none;border:1px solid var(--border);padding:5px 10px;
+  background:var(--spd);transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.l-link:hover{border-color:var(--spore);background:var(--spore);color:#08090a;}
+.l-link::after{content:'↗';font-size:10px;}
 
-.nav-verticals {
-  display: flex;
-  gap: 4px;
-  list-style: none;
-}
+.lc.legend-card{border-color:rgba(176,140,74,.22);}
+.lc.legend-card .ln{font-size:17px;}
+.legend-quote{font-family:'Playfair Display',serif;font-style:italic;
+  font-size:12px;line-height:1.7;color:var(--cream);opacity:.65;
+  border-left:2px solid var(--spore);padding-left:12px;margin-bottom:12px;flex:1;}
+.lc.book-card .ln{font-family:'Playfair Display',serif;font-size:17px;line-height:1.25;}
+.book-author{font-size:10px;color:var(--cream);opacity:.7;margin-bottom:6px;
+  letter-spacing:.04em;font-style:italic;}
+.book-lang{font-size:7.5px;letter-spacing:.15em;color:var(--mycel);
+  border:1px solid rgba(106,140,78,.25);padding:2px 5px;background:rgba(106,140,78,.07);}
 
-.nav-verticals li a {
-  font-size: 9.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--mist);
-  text-decoration: none;
-  padding: 6px 12px;
-  border: 1px solid transparent;
-  transition: all 0.25s;
-  cursor: none;
-  white-space: nowrap;
-}
-.nav-verticals li a:hover,
-.nav-verticals li a.active {
-  color: var(--spore);
-  border-color: var(--border);
-  background: var(--spore-light);
-}
+.no-res{text-align:center;padding:72px 36px;color:var(--mist);
+  grid-column:1/-1;display:none;font-size:11px;letter-spacing:.08em;}
+.no-res.on{display:block;}
+.no-res-ic{font-size:40px;margin-bottom:12px;opacity:.22;display:block;}
+.no-res button{margin-top:12px;background:none;border:1px solid var(--border);color:var(--spore);
+  padding:6px 14px;font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.14em;text-transform:uppercase;cursor:pointer;}
 
-/* ─── MAIN LAYOUT ─── */
-#app {
-  position: relative;
-  z-index: 10;
-  padding-top: 68px;
-  min-height: 100vh;
-}
+/* LOADING */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:100px 20px;color:var(--mist);font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
+.loading-dot{width:6px;height:6px;border-radius:50%;background:var(--spore);
+  margin-bottom:14px;animation:pulse 1.2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.85);}50%{opacity:1;transform:scale(1.15);}}
 
-/* ─── HOME HERO ─── */
-#home-view {
-  min-height: calc(100vh - 68px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 80px 48px 120px;
-  position: relative;
-}
+/* MAP */
+.map-shell{padding:28px 40px 60px;}
+.map-controls{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;margin-bottom:24px;}
+.map-month-label{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist);}
+.month-strip{display:flex;gap:2px;flex-wrap:wrap;}
+.mb{background:transparent;border:1px solid var(--border);color:var(--cream);
+  padding:7px 11px;font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
+  transition:all .16s;opacity:.7;min-width:42px;}
+.mb:hover{color:var(--spore);border-color:var(--bh);opacity:1;}
+.mb.on{background:var(--spore);border-color:var(--spore);color:#08090a;font-weight:500;opacity:1;}
+.map-legend{display:flex;align-items:center;gap:14px;font-size:8.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--mist);}
+.ml-dot{display:inline-flex;align-items:center;gap:5px;}
+.ml-dot::before{content:'';width:9px;height:9px;border-radius:50%;display:inline-block;}
+.ml-low::before{background:rgba(176,140,74,.3);}
+.ml-med::before{background:rgba(176,140,74,.65);}
+.ml-high::before{background:rgba(176,140,74,1);box-shadow:0 0 12px rgba(176,140,74,.6);}
+.world-map-wrap{position:relative;background:rgba(10,11,9,.75);
+  border:1px solid var(--border);padding:20px;margin-bottom:30px;}
+.world-map{width:100%;height:auto;display:block;}
+.region-label{font-family:'DM Mono',monospace;font-size:9px;
+  letter-spacing:.1em;text-transform:uppercase;fill:var(--cream);
+  opacity:.5;pointer-events:none;text-anchor:middle;}
+.map-detail{background:rgba(8,9,8,.85);border:1px solid var(--border);
+  padding:30px;display:none;}
+.map-detail.show{display:block;animation:ci .3s both;}
+.md-header{display:flex;justify-content:space-between;align-items:flex-start;
+  flex-wrap:wrap;gap:16px;margin-bottom:24px;}
+.md-region{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;letter-spacing:-.018em;}
+.md-month{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--spore);margin-top:4px;}
+.md-stat{text-align:right;}
+.md-stat-num{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--spore);line-height:1;}
+.md-stat-lbl{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-top:4px;}
+.md-mushrooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px;}
+.mush-card{background:rgba(14,15,11,.85);border:1px solid var(--border);padding:16px;
+  transition:background .2s,border-color .2s;}
+.mush-card:hover{background:rgba(20,22,16,.95);border-color:var(--bh);}
+.mush-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.mush-name{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;line-height:1.2;}
+.mush-latin{font-size:9.5px;color:var(--cream);opacity:.55;font-style:italic;margin-bottom:8px;}
+.mush-peak{font-size:7px;letter-spacing:.16em;text-transform:uppercase;
+  border:1px solid var(--border);padding:2px 5px;color:var(--spore);background:var(--spd);}
+.mush-meta{display:flex;gap:10px;font-size:9px;color:var(--mist);
+  margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+.mush-meta b{color:var(--cream);font-weight:400;}
+.map-empty{text-align:center;padding:50px 30px;color:var(--mist);
+  font-size:11px;letter-spacing:.08em;}
+.map-empty-ic{font-size:36px;display:block;margin-bottom:10px;opacity:.25;}
 
-.home-eyebrow {
-  font-size: 10px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--mycel);
-  margin-bottom: 28px;
-  animation: fadeUp 0.8s 0.2s both;
-}
+/* FOOTER */
+footer{position:relative;z-index:10;border-top:1px solid var(--border);
+  background:rgba(6,7,6,.92);padding:50px 40px 24px;}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 2fr;gap:36px;align-items:start;}
+.foot-brand .fb-logo{font-family:'Playfair Display',serif;font-size:24px;
+  font-weight:900;color:var(--parch);margin-bottom:12px;letter-spacing:.02em;}
+.foot-brand .fb-logo b{color:var(--spore);}
+.foot-brand p{font-size:10.5px;line-height:1.8;color:var(--mist);max-width:240px;}
+.foot-col h5{font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--spore);margin-bottom:14px;}
+.foot-col ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.foot-col a{font-size:11px;color:var(--mist);text-decoration:none;transition:color .18s;cursor:pointer;}
+.foot-col a:hover{color:var(--parch);}
+.foot-quote{text-align:right;}
+.foot-quote-text{font-family:'Playfair Display',serif;font-style:italic;
+  font-size:22px;line-height:1.3;color:var(--cream);font-weight:400;}
+.foot-quote-text em{color:var(--spore);font-style:italic;}
+.foot-quote-by{font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mist);margin-top:14px;display:block;}
+.foot-bot{border-top:1px solid var(--border);margin-top:36px;padding-top:18px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--mist);}
 
-.home-headline {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(60px, 8.5vw, 124px);
-  font-weight: 900;
-  line-height: 0.9;
-  letter-spacing: -0.025em;
-  max-width: 960px;
-  animation: fadeUp 1s 0.4s both;
-}
-.home-headline em { font-style:italic; color:var(--spore); }
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--soil);}
+::-webkit-scrollbar-thumb{background:rgba(176,140,74,.35);}
 
-.home-sub {
-  margin-top: 36px;
-  font-size: 13px;
-  line-height: 2;
-  color: var(--cream);
-  opacity: 0.65;
-  max-width: 440px;
-  animation: fadeUp 0.8s 0.7s both;
-}
-
-.home-verticals-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2px;
-  margin-top: 72px;
-  width: 100%;
-  animation: fadeUp 0.8s 0.9s both;
-}
-
-.home-v-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  padding: 32px 28px;
-  cursor: none;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-.home-v-card::before {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--spore);
-  transform: scaleX(0);
-  transition: transform 0.3s;
-  transform-origin: left;
-}
-.home-v-card:hover { background: rgba(30,27,18,0.95); border-color: var(--border-hover); }
-.home-v-card:hover::before { transform: scaleX(1); }
-
-.hvc-icon { font-size: 26px; margin-bottom: 16px; opacity: 0.75; display: block; }
-.hvc-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.hvc-count {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: var(--spore);
-  text-transform: uppercase;
-}
-.hvc-desc {
-  font-size: 11px;
-  line-height: 1.7;
-  color: var(--mist);
-  margin-top: 10px;
-}
-
-/* ─── VERTICAL PAGE ─── */
-#vertical-view { display: none; }
-#vertical-view.active { display: block; }
-#home-view.hidden { display: none; }
-
-.vertical-hero {
-  padding: 60px 48px 48px;
-  border-bottom: 1px solid var(--border);
-  position: relative;
-}
-
-.vhero-breadcrumb {
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--mist);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: none;
-}
-.vhero-breadcrumb span { color: var(--spore); cursor: none; }
-.vhero-breadcrumb button {
-  background: none; border: none; color: var(--mist);
-  font-family: 'DM Mono', monospace;
-  font-size: 10px; letter-spacing: 0.2em;
-  text-transform: uppercase; cursor: none;
-  transition: color 0.2s;
-}
-.vhero-breadcrumb button:hover { color: var(--parchment); }
-
-.vhero-top {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-}
-
-.vhero-icon { font-size: 48px; line-height: 1; margin-bottom: 12px; opacity: 0.8; }
-
-.vhero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(44px, 6vw, 80px);
-  font-weight: 900;
-  letter-spacing: -0.025em;
-  line-height: 1;
-}
-.vhero-title em { font-style: italic; color: var(--spore); }
-
-.vhero-desc {
-  font-size: 12px;
-  line-height: 1.9;
-  color: var(--cream);
-  opacity: 0.6;
-  max-width: 420px;
-  flex-shrink: 0;
-}
-
-.vhero-stats {
-  display: flex;
-  gap: 40px;
-  margin-top: 32px;
-}
-.vhero-stat-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--spore);
-}
-.vhero-stat-label {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--mist);
-  margin-top: 2px;
-}
-
-/* ─── FILTER BAR ─── */
-.filter-bar {
-  padding: 20px 48px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  background: rgba(11,10,7,0.6);
-  backdrop-filter: blur(8px);
-  position: sticky;
-  top: 68px;
-  z-index: 50;
-}
-
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.filter-label {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--mist);
-  margin-right: 4px;
-  white-space: nowrap;
-}
-
-.filter-chip {
-  background: transparent;
-  border: 1px solid rgba(196,164,90,0.22);
-  color: var(--cream);
-  padding: 6px 14px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  cursor: none;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.filter-chip:hover { border-color: var(--spore); color: var(--spore); }
-.filter-chip.active {
-  background: var(--spore);
-  border-color: var(--spore);
-  color: var(--ink);
-  font-weight: 500;
-}
-
-.filter-divider {
-  width: 1px;
-  height: 24px;
-  background: var(--border);
-  margin: 0 6px;
-}
-
-.filter-search {
-  margin-left: auto;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--parchment);
-  padding: 7px 16px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  width: 220px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.filter-search::placeholder { color: var(--mist); opacity: 0.7; }
-.filter-search:focus { border-color: var(--spore); }
-
-/* ─── DIRECTORY GRID ─── */
-.directory-shell {
-  padding: 40px 48px 80px;
-}
-
-.results-meta {
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--mist);
-  margin-bottom: 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.results-count { color: var(--spore); }
-
-.view-toggle {
-  display: flex;
-  gap: 4px;
-}
-.view-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--mist);
-  padding: 5px 10px;
-  font-size: 14px;
-  cursor: none;
-  transition: all 0.2s;
-}
-.view-btn.active { background: var(--spore-light); border-color: var(--spore); color: var(--spore); }
-
-/* Grid view */
-.dir-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2px;
-}
-
-/* List view */
-.dir-list .dir-grid { grid-template-columns: 1fr; }
-.dir-list .listing-card { flex-direction: row; min-height: auto; }
-.dir-list .listing-card-body { display: flex; align-items: center; gap: 24px; width: 100%; }
-.dir-list .listing-tags { margin-top: 0; margin-left: auto; }
-.dir-list .listing-desc { display: none; }
-.dir-list .listing-name { font-size: 18px; }
-
-/* ─── LISTING CARD ─── */
-.listing-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  padding: 28px;
-  cursor: none;
-  transition: all 0.3s;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-  animation: cardIn 0.4s both;
-}
-
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.listing-card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-  background: var(--spore);
-  transform: scaleY(0);
-  transition: transform 0.3s;
-  transform-origin: bottom;
-}
-.listing-card:hover { background: rgba(22,20,13,0.95); border-color: var(--border-hover); transform: translateY(-2px); }
-.listing-card:hover::before { transform: scaleY(1); }
-.listing-card.hidden { display: none; }
-
-.listing-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-
-.listing-icon {
-  width: 40px; height: 40px;
-  background: var(--spore-light);
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.listing-type-badge {
-  font-size: 8.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--spore);
-  border: 1px solid var(--border);
-  padding: 3px 8px;
-  background: var(--spore-light);
-}
-
-.listing-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 4px;
-  line-height: 1.2;
-}
-
-.listing-location {
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  color: var(--mist);
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.listing-location::before { content: '◎'; font-size: 8px; color: var(--spore); }
-
-.listing-desc {
-  font-size: 11.5px;
-  line-height: 1.75;
-  color: var(--cream);
-  opacity: 0.6;
-  flex: 1;
-  margin-bottom: 16px;
-}
-
-.listing-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: auto;
-}
-
-.listing-tag {
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--mist);
-  border: 1px solid rgba(122,142,120,0.3);
-  padding: 3px 8px;
-}
-
-.listing-meta {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.listing-meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.lmi-label { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mist); }
-.lmi-value { font-size: 11px; color: var(--cream); }
-
-.listing-footer {
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.listing-link {
-  font-size: 9.5px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--spore);
-  text-decoration: none;
-  opacity: 0;
-  transform: translateX(-6px);
-  transition: all 0.3s;
-  cursor: none;
-}
-.listing-card:hover .listing-link { opacity: 1; transform: translateX(0); }
-
-/* No results */
-.no-results {
-  text-align: center;
-  padding: 80px 40px;
-  color: var(--mist);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  grid-column: 1 / -1;
-  display: none;
-}
-.no-results.show { display: block; }
-.no-results-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.3; display: block; }
-
-/* ─── ELEVATED MUSHROOM SVGs ─── */
-.shroom-deco {
-  position: absolute;
-  pointer-events: none;
-  opacity: 0.06;
-}
-
-/* ─── ANIMATIONS ─── */
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(24px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-
-/* ─── SCROLLBAR ─── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--ink); }
-::-webkit-scrollbar-thumb { background: var(--spore); opacity: 0.5; }
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 900px) {
-  nav { padding: 0 20px; }
-  .nav-verticals { display: none; }
-  #home-view, .vertical-hero, .filter-bar, .directory-shell { padding-left: 20px; padding-right: 20px; }
-  .home-headline { font-size: 52px; }
-  .home-verticals-grid { grid-template-columns: 1fr 1fr; }
-  .vhero-top { flex-direction: column; align-items: flex-start; }
-  .dir-grid { grid-template-columns: 1fr; }
+@media(max-width:860px){
+  nav{padding:0 16px;}.n-links{display:none;}
+  #hv,.v-hero,.f-bar,.dir-shell,.active-filters,.map-shell,footer{padding-left:16px;padding-right:16px;}
+  .h-grid{grid-template-columns:1fr 1fr;}
+  .v-top{flex-direction:column;align-items:flex-start;}
+  .d-grid{grid-template-columns:1fr;}
+  .foot-grid{grid-template-columns:1fr;gap:30px;}
+  .foot-quote{text-align:left;}
 }
 </style>
 </head>
 <body>
 
-<!-- Cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div id="bg"></div><div id="soil-glow"></div><div id="mycel-net"></div><div id="grain"></div>
 
-<!-- Persistent animated background -->
-<canvas id="bg-canvas"></canvas>
-
-<!-- Floating mushroom silhouettes -->
-<div class="bg-shrooms" id="bgShrooms"></div>
-
-<!-- NAV -->
-<nav id="main-nav">
-  <a href="#" class="nav-logo" onclick="showHome(event)">Mush<span>mor</span></a>
-  <ul class="nav-verticals" id="navVerticals"></ul>
+<nav>
+  <a href="#" class="n-logo" onclick="goHome(event)">Mush<b>mor</b></a>
+  <ul class="n-links" id="navLinks"></ul>
 </nav>
 
-<!-- APP -->
 <div id="app">
-
-  <!-- HOME -->
-  <div id="home-view">
-    <!-- Decorative mushroom SVGs -->
-    <svg class="shroom-deco" style="right:-60px;top:40px;width:380px;" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="100" cy="90" rx="90" ry="55" fill="var(--spore)" opacity="0.9"/>
-      <path d="M70,90 Q65,160 80,220 Q100,240 120,220 Q135,160 130,90" fill="var(--spore)" opacity="0.7"/>
-      <ellipse cx="100" cy="90" rx="90" ry="55" fill="none" stroke="var(--spore)" stroke-width="1" opacity="0.3"/>
-      <line x1="60" y1="95" x2="50" y2="140" stroke="var(--spore)" stroke-width="0.5" opacity="0.4"/>
-      <line x1="80" y1="100" x2="75" y2="155" stroke="var(--spore)" stroke-width="0.5" opacity="0.4"/>
-      <line x1="100" y1="102" x2="100" y2="158" stroke="var(--spore)" stroke-width="0.5" opacity="0.4"/>
-      <line x1="120" y1="100" x2="125" y2="155" stroke="var(--spore)" stroke-width="0.5" opacity="0.4"/>
-      <line x1="140" y1="95" x2="150" y2="140" stroke="var(--spore)" stroke-width="0.5" opacity="0.4"/>
-    </svg>
-
-    <p class="home-eyebrow">The World's Mushroom Platform — Est. 2025</p>
-    <h1 class="home-headline">Every<br><em>kingdom</em><br>begins here.</h1>
-    <p class="home-sub">Eight worlds. One living network. Explore the global directory of mushroom brands, people, organizations, and innovators.</p>
-
-    <div class="home-verticals-grid" id="homeVerticalsGrid"></div>
+  <div id="hv">
+    <p class="h-eye">The World's Mushroom Platform — Est. 2025</p>
+    <h1 class="h-hl">Every<br><em>kingdom</em><br>begins underground.</h1>
+    <p class="h-sub">The living global directory of mushroom brands, people, books, restaurants, and seasonal harvest data — powered by a community and updated continuously.</p>
+    <div class="h-grid" id="homeGrid"></div>
   </div>
 
-  <!-- VERTICAL PAGE -->
-  <div id="vertical-view">
-    <div class="vertical-hero" id="verticalHero"></div>
-    <div class="filter-bar" id="filterBar"></div>
-    <div class="directory-shell">
-      <div class="results-meta">
-        <span><span class="results-count" id="resultsCount">0</span> listings</span>
-        <div class="view-toggle">
-          <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid">⊞</button>
-          <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List">☰</button>
-        </div>
-      </div>
-      <div class="dir-grid" id="dirGrid"></div>
-    </div>
+  <div id="vv">
+    <div class="v-hero" id="vHero"></div>
+    <div class="f-bar" id="fBar"></div>
+    <div id="vBody"></div>
   </div>
-
 </div>
 
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="fb-logo">Mush<b>mor</b></div>
+      <p>The world's living platform for mushroom culture — where nature's oldest intelligence meets human curiosity.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Worlds</h5>
+      <ul>
+        <li><a onclick="goto('food')">Food</a></li>
+        <li><a onclick="goto('wellness')">Wellness</a></li>
+        <li><a onclick="goto('fashion')">Fashion</a></li>
+        <li><a onclick="goto('tech')">Technology</a></li>
+        <li><a onclick="goto('education')">Education</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Discover</h5>
+      <ul>
+        <li><a onclick="goto('legends')">Legends</a></li>
+        <li><a onclick="goto('library')">Library</a></li>
+        <li><a onclick="goto('map')">World Map</a></li>
+        <li><a onclick="goto('restaurants')">Restaurants</a></li>
+        <li><a onclick="goto('events')">Events</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Platform</h5>
+      <ul>
+        <li><a>About</a></li>
+        <li><a>Submit Listing</a></li>
+        <li><a>Manifesto</a></li>
+        <li><a>Press</a></li>
+        <li><a>Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-quote">
+      <p class="foot-quote-text">"The <em>mycelium</em><br>never sleeps."</p>
+      <span class="foot-quote-by">— Mushmor</span>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2025 Mushmor. All rights reserved.</span>
+    <span>Made with care for the kingdom of fungi.</span>
+  </div>
+</footer>
+
 <script>
-// ══════════════════════════════════════════════
-// BACKGROUND CANVAS — mycelium + spores
-// ══════════════════════════════════════════════
-const bgCanvas = document.getElementById('bg-canvas');
-const bgCtx = bgCanvas.getContext('2d');
-let bgW, bgH;
+// ═══════════════════════════════════════
+// SUPABASE CONFIG
+// ═══════════════════════════════════════
+const SUPABASE_URL = 'https://adoryjvjmrdbsbamzzjk.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFkb3J5anZqbXJkYnNiYW16emprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NjE2MzMsImV4cCI6MjA5MjEzNzYzM30.ZUFzKwtwT7KYnNGMujDjPIIoUJrzJaHl1ELK_w09go0';
 
-function resizeBg() {
-  bgW = bgCanvas.width = window.innerWidth;
-  bgH = bgCanvas.height = window.innerHeight;
-}
-resizeBg();
-window.addEventListener('resize', resizeBg);
-
-const NODES = [];
-const NODE_N = 80;
-const SPORES = [];
-const SPORE_N = 30;
-
-for (let i = 0; i < NODE_N; i++) {
-  NODES.push({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-    vx: (Math.random()-0.5)*0.25,
-    vy: (Math.random()-0.5)*0.25,
-    r: Math.random()*1.6+0.4,
-    pulse: Math.random()*Math.PI*2,
-    speed: 0.008+Math.random()*0.012
+async function sbFetch(table, params='') {
+  const url = `${SUPABASE_URL}/rest/v1/${table}?${params}`;
+  const r = await fetch(url, {
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
   });
-}
-for (let i = 0; i < SPORE_N; i++) {
-  SPORES.push({
-    x: Math.random()*window.innerWidth,
-    y: Math.random()*window.innerHeight + window.innerHeight,
-    r: Math.random()*2+0.8,
-    speed: 0.2+Math.random()*0.5,
-    drift: (Math.random()-0.5)*0.3,
-    alpha: 0.15+Math.random()*0.3
-  });
+  if (!r.ok) throw new Error(`Supabase error: ${r.status}`);
+  return r.json();
 }
 
-function drawBg() {
-  bgCtx.clearRect(0, 0, bgW, bgH);
-
-  // Ambient glow patches
-  const g1 = bgCtx.createRadialGradient(bgW*0.2, bgH*0.3, 0, bgW*0.2, bgH*0.3, bgW*0.4);
-  g1.addColorStop(0, 'rgba(110,158,90,0.03)');
-  g1.addColorStop(1, 'transparent');
-  bgCtx.fillStyle = g1; bgCtx.fillRect(0,0,bgW,bgH);
-
-  const g2 = bgCtx.createRadialGradient(bgW*0.8, bgH*0.7, 0, bgW*0.8, bgH*0.7, bgW*0.35);
-  g2.addColorStop(0, 'rgba(196,164,90,0.04)');
-  g2.addColorStop(1, 'transparent');
-  bgCtx.fillStyle = g2; bgCtx.fillRect(0,0,bgW,bgH);
-
-  // Update nodes
-  NODES.forEach(n => {
-    n.x += n.vx; n.y += n.vy; n.pulse += n.speed;
-    if (n.x < 0 || n.x > bgW) n.vx *= -1;
-    if (n.y < 0 || n.y > bgH) n.vy *= -1;
-  });
-
-  // Connections
-  for (let i = 0; i < NODES.length; i++) {
-    for (let j = i+1; j < NODES.length; j++) {
-      const dx = NODES[i].x - NODES[j].x;
-      const dy = NODES[i].y - NODES[j].y;
-      const d = Math.sqrt(dx*dx+dy*dy);
-      if (d < 200) {
-        const a = (1 - d/200) * 0.18;
-        bgCtx.beginPath();
-        bgCtx.moveTo(NODES[i].x, NODES[i].y);
-        bgCtx.lineTo(NODES[j].x, NODES[j].y);
-        bgCtx.strokeStyle = `rgba(196,164,90,${a})`;
-        bgCtx.lineWidth = 0.6;
-        bgCtx.stroke();
-      }
-    }
-  }
-
-  // Nodes
-  NODES.forEach(n => {
-    const p = (Math.sin(n.pulse)*0.5+0.5);
-    bgCtx.beginPath();
-    bgCtx.arc(n.x, n.y, n.r*(1+p*0.6), 0, Math.PI*2);
-    bgCtx.fillStyle = `rgba(196,164,90,${0.15+p*0.25})`;
-    bgCtx.fill();
-  });
-
-  // Floating spores
-  SPORES.forEach(s => {
-    s.y -= s.speed; s.x += s.drift;
-    if (s.y < -10) { s.y = bgH+10; s.x = Math.random()*bgW; }
-    bgCtx.beginPath();
-    bgCtx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-    bgCtx.fillStyle = `rgba(158,212,180,${s.alpha})`;
-    bgCtx.fill();
-  });
-
-  requestAnimationFrame(drawBg);
-}
-drawBg();
-
-// Spawn floating mushroom SVGs
-const shroomContainer = document.getElementById('bgShrooms');
-const SHROOM_SVGs = [
-  // Chanterelle-like
-  `<svg viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="28" rx="28" ry="18" fill="currentColor"/><path d="M18,28 Q15,55 20,72 Q30,80 40,72 Q45,55 42,28" fill="currentColor" opacity="0.8"/><path d="M24,30 Q22,50 26,64" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.5"/><path d="M30,31 Q30,52 30,66" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.5"/><path d="M36,30 Q38,50 34,64" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.5"/></svg>`,
-  // Porcini-like  
-  `<svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg"><ellipse cx="40" cy="35" rx="38" ry="25" fill="currentColor"/><ellipse cx="40" cy="35" rx="38" ry="25" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><rect x="32" y="58" width="16" height="38" rx="4" fill="currentColor" opacity="0.75"/><ellipse cx="40" cy="60" rx="14" ry="4" fill="currentColor" opacity="0.4"/></svg>`,
-  // Oyster-like
-  `<svg viewBox="0 0 100 70" xmlns="http://www.w3.org/2000/svg"><path d="M10,60 Q5,10 50,5 Q95,10 90,60 Q70,72 50,70 Q30,72 10,60Z" fill="currentColor"/><path d="M50,68 Q48,40 46,15" stroke="currentColor" stroke-width="1" fill="none" opacity="0.4"/><path d="M50,68 Q60,42 68,18" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.35"/><path d="M50,68 Q40,42 32,18" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.35"/></svg>`,
-  // Amanita-like
-  `<svg viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg"><path d="M5,45 Q5,5 35,2 Q65,5 65,45 Q55,52 35,50 Q15,52 5,45Z" fill="currentColor"/><circle cx="22" cy="22" r="4" fill="currentColor" opacity="0.4"/><circle cx="45" cy="18" r="3" fill="currentColor" opacity="0.4"/><circle cx="35" cy="35" r="2.5" fill="currentColor" opacity="0.35"/><rect x="30" y="50" width="10" height="36" rx="3" fill="currentColor" opacity="0.7"/><ellipse cx="35" cy="52" rx="12" ry="3.5" fill="currentColor" opacity="0.35"/></svg>`,
-  // Morel-like
-  `<svg viewBox="0 0 50 90" xmlns="http://www.w3.org/2000/svg"><path d="M10,60 Q8,20 25,5 Q42,20 40,60 Q35,68 25,67 Q15,68 10,60Z" fill="currentColor"/><path d="M14,25 Q18,22 22,25 Q18,28 14,25Z" fill="currentColor" opacity="0.4"/><path d="M26,20 Q30,17 34,20 Q30,23 26,20Z" fill="currentColor" opacity="0.4"/><path d="M12,38 Q16,35 20,38 Q16,41 12,38Z" fill="currentColor" opacity="0.4"/><path d="M28,35 Q32,32 36,35 Q32,38 28,35Z" fill="currentColor" opacity="0.4"/><rect x="21" y="67" width="8" height="22" rx="2" fill="currentColor" opacity="0.7"/></svg>`
-];
-
-function spawnBgShroom() {
-  const el = document.createElement('div');
-  const svgIdx = Math.floor(Math.random() * SHROOM_SVGs.length);
-  const size = 80 + Math.random() * 200;
-  const xPos = Math.random() * 100;
-  const dur = 35 + Math.random() * 50;
-  const delay = -Math.random() * dur;
-  el.innerHTML = SHROOM_SVGs[svgIdx];
-  el.style.cssText = `position:absolute;left:${xPos}%;bottom:-${size}px;width:${size}px;height:auto;color:var(--spore);animation:shroomDrift ${dur}s ${delay}s linear infinite;`;
-  shroomContainer.appendChild(el);
-}
-for (let i = 0; i < 14; i++) spawnBgShroom();
-
-// ══════════════════════════════════════════════
-// CURSOR
-// ══════════════════════════════════════════════
-const cursorDot = document.getElementById('cursor');
-const cursorRing = document.getElementById('cursorRing');
-let mx=0, my=0, rx=0, ry=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cursorDot.style.left=mx+'px'; cursorDot.style.top=my+'px'; });
-(function ringAnim() {
-  rx += (mx-rx)*0.1; ry += (my-ry)*0.1;
-  cursorRing.style.left=rx+'px'; cursorRing.style.top=ry+'px';
-  requestAnimationFrame(ringAnim);
-})();
-document.addEventListener('mouseover', e => {
-  if (e.target.matches('button,a,.listing-card,.home-v-card,.filter-chip,.view-btn')) {
-    cursorDot.classList.add('big'); cursorRing.classList.add('big');
-  }
-});
-document.addEventListener('mouseout', e => {
-  if (e.target.matches('button,a,.listing-card,.home-v-card,.filter-chip,.view-btn')) {
-    cursorDot.classList.remove('big'); cursorRing.classList.remove('big');
-  }
-});
-
-// ══════════════════════════════════════════════
-// DATA
-// ══════════════════════════════════════════════
+// ═══════════════════════════════════════
+// VERTICAL METADATA (UI config only; data comes from Supabase)
+// ═══════════════════════════════════════
 const VERTICALS = [
-  {
-    id: 'food',
-    name: 'Food & Gastronomy',
-    icon: '🍄',
-    color: '#8b5a2b',
-    desc: 'Restaurants, growers, ingredient suppliers, chefs, food brands, and culinary innovators leading the fungi food revolution.',
-    stats: [{ n:'340+', l:'Listings' }, { n:'42', l:'Countries' }, { n:'$28B', l:'Market Size' }],
-    filters: [
-      { key: 'type', label: 'Type', opts: ['All','Restaurant','Grower','Supplier','Brand','Chef','Distributor','Market'] },
-      { key: 'specialty', label: 'Specialty', opts: ['All','Gourmet','Medicinal','Functional','Fermented','Dried','Fresh','Foraged'] }
-    ],
-    listings: [
-      { name:'Smallhold', loc:'New York, USA', region:'North America', type:'Grower', specialty:'Fresh', desc:'Urban mushroom farm supplying top restaurants in NYC and LA with specialty fungi — maitake, lion\'s mane, oyster. Farm-to-chef in 24h.', tags:['B2B','Wholesale','Organic'], meta:[{l:'Founded',v:'2017'},{l:'Species',v:'12+'},{l:'Cities',v:'4'}], icon:'🌱' },
-      { name:'Miyake Shokuhin', loc:'Osaka, Japan', region:'Asia', type:'Supplier', specialty:'Dried', desc:'Three-generation family business supplying premium dried shiitake and matsutake to Michelin restaurants across Japan and SE Asia.', tags:['Export','Heritage','Michelin'], meta:[{l:'Founded',v:'1952'},{l:'SKUs',v:'80+'},{l:'Export',v:'18 countries'}], icon:'🎌' },
-      { name:'Fungi Perfecti', loc:'Olympia, USA', region:'North America', type:'Brand', specialty:'Medicinal', desc:'Paul Stamets\'s pioneering company producing functional mushroom extracts, supplements, and gourmet products with decades of research behind them.', tags:['Medicinal','Research','Iconic'], meta:[{l:'Founded',v:'1980'},{l:'Products',v:'100+'},{l:'Patents',v:'22'}], icon:'✦' },
-      { name:'Hericium & Co.', loc:'London, UK', region:'Europe', type:'Restaurant', specialty:'Gourmet', desc:'London\'s only fully fungi-focused fine dining experience. Tasting menus celebrating the full spectrum of British and European wild mushrooms.', tags:['Fine Dining','Seasonal','Tasting Menu'], meta:[{l:'Covers',v:'34'},{l:'Michelin',v:'1 Star'},{l:'Seasons',v:'4'}], icon:'🍽️' },
-      { name:'Bosque Vivo', loc:'Oaxaca, Mexico', region:'Latin America', type:'Grower', specialty:'Foraged', desc:'Indigenous-led cooperative ethically wildcrafting huitlacoche, tecomate, and endemic Oaxacan mushroom varieties for regional gastronomy.', tags:['Indigenous','Cooperative','Wild'], meta:[{l:'Members',v:'34'},{l:'Species',v:'26'},{l:'Cert',v:'Organic'}], icon:'🌿' },
-      { name:'NordSkog Svamp', loc:'Bergen, Norway', region:'Europe', type:'Grower', specialty:'Foraged', desc:'Scandinavian foraging collective supplying chanterelles, ceps, and hedgehog mushrooms to Nordic restaurants and food halls.', tags:['Nordic','Wild','Seasonal'], meta:[{l:'Kg/Season',v:'8,000+'},{l:'Partners',v:'22 restaurants'},{l:'Seasons',v:'Year-round'}], icon:'🌲' },
-      { name:'Umami Yard', loc:'Melbourne, Australia', region:'Oceania', type:'Brand', specialty:'Fermented', desc:'Artisan producer of mushroom-fermented sauces, pastes, and seasonings — mushroom fish sauce, truffle garum, and porcini miso.', tags:['Artisan','Fermented','Export'], meta:[{l:'Founded',v:'2019'},{l:'SKUs',v:'28'},{l:'Export',v:'AU/EU'}], icon:'🫙' },
-      { name:'Chef Yuki Tanaka', loc:'Tokyo, Japan', region:'Asia', type:'Chef', specialty:'Gourmet', desc:'Internationally recognized chef and mycologist running a fungi omakase in Ginza. Author of The Mushroom Kitchen cookbook series.', tags:['Celebrity Chef','Author','Omakase'], meta:[{l:'Books',v:'3'},{l:'Awards',v:'JBF Nominee'},{l:'Restaurant',v:'Ginza'}], icon:'👨‍🍳' },
-      { name:'Terroir Fungi', loc:'Perigord, France', region:'Europe', type:'Supplier', specialty:'Gourmet', desc:'France\'s premier truffle and cep negociant, sourcing from 200+ forager families across the Dordogne and Périgord regions.', tags:['Truffle','Heritage','Wholesale'], meta:[{l:'Founded',v:'1948'},{l:'Foragers',v:'200+'},{l:'Tonnage',v:'12t/yr'}], icon:'🇫🇷' },
-      { name:'Mushroom Market BV', loc:'Amsterdam, Netherlands', region:'Europe', type:'Distributor', specialty:'Fresh', desc:'EU\'s largest fresh mushroom wholesale distributor, connecting Dutch and Belgian growers to 800+ food businesses across 14 countries.', tags:['Wholesale','EU','Cold Chain'], meta:[{l:'Clients',v:'800+'},{l:'Countries',v:'14'},{l:'Volume',v:'2,400t/mo'}], icon:'🏭' },
-      { name:'MushrooMKT', loc:'Singapore', region:'Asia', type:'Market', specialty:'Fresh', desc:'Southeast Asia\'s largest online B2B mushroom marketplace — connecting regional growers with HoReCa buyers across Singapore, Thailand, and Indonesia.', tags:['B2B','Online','Southeast Asia'], meta:[{l:'Listings',v:'1,200+'},{l:'Countries',v:'8'},{l:'GMV',v:'$4M/mo'}], icon:'💻' },
-      { name:'Cascadia Truffles', loc:'Portland, USA', region:'North America', type:'Grower', specialty:'Foraged', desc:'PNW truffle orchard and wild harvest operation, pioneering Oregon white truffle cultivation alongside wild black truffle foraging.', tags:['Truffle','PNW','Cultivation'], meta:[{l:'Acres',v:'80'},{l:'Species',v:'3'},{l:'Chef Partners',v:'40+'}], icon:'🌧️' },
-    ]
-  },
-  {
-    id: 'wellness',
-    name: 'Wellness & Adaptogens',
-    icon: '✦',
-    color: '#3a5e35',
-    desc: 'Supplement brands, practitioners, research institutes, and wellness companies harnessing the healing power of functional fungi.',
-    stats: [{ n:'520+', l:'Listings' }, { n:'55', l:'Countries' }, { n:'$24B', l:'Market 2030' }],
-    filters: [
-      { key: 'type', label: 'Type', opts: ['All','Brand','Practitioner','Research','Clinic','Supplement','Tonic'] },
-      { key: 'focus', label: 'Focus', opts: ['All','Cognitive','Immunity','Energy','Stress','Sleep','Gut','Longevity'] }
-    ],
-    listings: [
-      { name:'Four Sigmatic', loc:'Los Angeles, USA', region:'North America', type:'Brand', focus:'Cognitive', desc:'The brand that put mushroom coffee on the map. Blends functional mushrooms with coffee, cacao, and adaptogens for daily wellness rituals.', tags:['Consumer','DTC','Mushroom Coffee'], meta:[{l:'Founded',v:'2012'},{l:'Products',v:'50+'},{l:'Countries',v:'62'}], icon:'☕' },
-      { name:'Host Defense', loc:'Olympia, USA', region:'North America', type:'Brand', focus:'Immunity', desc:'Paul Stamets\' supplement line using certified organic mushroom mycelium — the world\'s most scientifically studied fungal supplement range.', tags:['Research-backed','Organic','Iconic'], meta:[{l:'Products',v:'45+'},{l:'Studies',v:'300+'},{l:'Founded',v:'2012'}], icon:'🧬' },
-      { name:'Dr. Andrew Weil Center', loc:'Tucson, USA', region:'North America', type:'Clinic', focus:'Longevity', desc:'Pioneer integrative medicine clinic incorporating reishi, turkey tail, and maitake protocols for immune support, cancer adjunct therapy, and longevity.', tags:['Integrative','Clinical','Research'], meta:[{l:'Founded',v:'1994'},{l:'Protocols',v:'12'},{l:'Papers',v:'200+'}], icon:'🏥' },
-      { name:'Rhizome Labs', loc:'Berlin, Germany', region:'Europe', type:'Research', focus:'Cognitive', desc:'Independent research institute studying lion\'s mane\'s NGF-stimulating compounds. Partners with pharmaceutical companies on neurodegeneration protocols.', tags:['R&D','NGF','Neurodegeneration'], meta:[{l:'Founded',v:'2017'},{l:'Studies',v:'24'},{l:'Partners',v:'8'}], icon:'🔬' },
-      { name:'Nootropics Depot', loc:'Phoenix, USA', region:'North America', type:'Brand', focus:'Cognitive', desc:'Science-first supplement retailer with rigorous third-party testing. The most cited source for high-potency mushroom extracts among biohackers.', tags:['COA','Extracts','Biohacker'], meta:[{l:'SKUs',v:'300+'},{l:'Lab Tests',v:'100% COA'},{l:'Community',v:'200k+'}], icon:'⚗️' },
-      { name:'Chaga Naturals', loc:'Helsinki, Finland', region:'Europe', type:'Brand', focus:'Immunity', desc:'Sustainably wildcrafted Finnish chaga, birch polypore, and forest fungi. Traditional Nordic preparation methods meet modern bioavailability science.', tags:['Nordic','Wild','Sustainable'], meta:[{l:'Founded',v:'2015'},{l:'Certs',v:'EU Organic'},{l:'Harvest',v:'Wild-only'}], icon:'🌿' },
-      { name:'Lifehouse Tonics', loc:'Byron Bay, Australia', region:'Oceania', type:'Tonic', focus:'Energy', desc:'Australia\'s leading functional tonic bar chain blending adaptogenic mushrooms with Australian botanicals. 18 locations across AU and NZ.', tags:['Tonic Bar','Retail','B2C'], meta:[{l:'Locations',v:'18'},{l:'Founded',v:'2016'},{l:'SKUs',v:'40'}], icon:'🥤' },
-      { name:'Tianji TCM Institute', loc:'Chengdu, China', region:'Asia', type:'Clinic', focus:'Longevity', desc:'Classical Chinese medicine institute incorporating lingzhi (reishi), yunzhi (turkey tail), and ling zhi preparations into clinical oncology support.', tags:['TCM','Oncology','Traditional'], meta:[{l:'Founded',v:'1985'},{l:'Patients/yr',v:'12,000+'},{l:'Protocols',v:'30+'}], icon:'☯️' },
-      { name:'MycoMedica', loc:'Prague, Czech Republic', region:'Europe', type:'Brand', focus:'Immunity', desc:'Czech functional mushroom brand using dual-extraction methods. Popular across Central and Eastern Europe for their beta-glucan standardized products.', tags:['Dual-Extract','Standardized','CEE'], meta:[{l:'Founded',v:'2009'},{l:'Retailers',v:'2,000+'},{l:'Countries',v:'18'}], icon:'🏰' },
-      { name:'TRIPP', loc:'Toronto, Canada', region:'North America', type:'Brand', focus:'Stress', desc:'Modern adaptogens brand for the next generation. Mushroom blends in RTD format targeting millennials and Gen Z with stress, sleep, and focus SKUs.', tags:['RTD','Gen Z','DTC'], meta:[{l:'Founded',v:'2021'},{l:'SKUs',v:'12'},{l:'Retail',v:'Whole Foods'}], icon:'🍃' },
-      { name:'Soma Wellness', loc:'Cape Town, South Africa', region:'Africa', type:'Practitioner', focus:'Stress', desc:'Africa\'s leading integrative wellness practice specializing in mycotherapy — combining functional fungi with somatic healing modalities.', tags:['Integrative','Mycotherapy','Africa'], meta:[{l:'Founded',v:'2018'},{l:'Practitioners',v:'8'},{l:'Countries',v:'SA/KE/GH'}], icon:'🌍' },
-    ]
-  },
-  {
-    id: 'fashion',
-    name: 'Fashion & Materials',
-    icon: '◈',
-    color: '#5a3020',
-    desc: 'Mycelium leather innovators, fungi textile designers, sustainable fashion brands, and material science pioneers reshaping what we wear.',
-    stats: [{ n:'180+', l:'Listings' }, { n:'28', l:'Countries' }, { n:'$9B', l:'Bio-Materials 2028' }],
-    filters: [
-      { key: 'type', label: 'Type', opts: ['All','Brand','Material','Designer','Manufacturer','Research','Retailer'] },
-      { key: 'material', label: 'Material', opts: ['All','Mycelium Leather','Fungi Dye','Myco-Textile','Composite','Packaging'] }
-    ],
-    listings: [
-      { name:'Bolt Threads', loc:'San Francisco, USA', region:'North America', type:'Material', material:'Mycelium Leather', desc:'Creators of Mylo — mycelium-based leather used by Stella McCartney, lululemon, adidas, and Kering. The most advanced mycelium material company in the world.', tags:['Mylo','B2B','Luxury Partner'], meta:[{l:'Founded',v:'2009'},{l:'Partners',v:'Stella, adidas'},{l:'Funding',v:'$130M+'}], icon:'⬡' },
-      { name:'Ecovative Design', loc:'New York, USA', region:'North America', type:'Material', material:'Mycelium Leather', desc:'The original mycelium material company. AirMycelium technology for packaging, insulation, and leather alternatives. Founded by Eben Bayer.', tags:['Pioneer','AirMycelium','B2B'], meta:[{l:'Founded',v:'2007'},{l:'Patents',v:'100+'},{l:'Clients',v:'Nike, IKEA'}], icon:'🔬' },
-      { name:'Mogu', loc:'Inarzo, Italy', region:'Europe', type:'Material', material:'Composite', desc:'Italian company transforming agricultural waste + mycelium into award-winning acoustic panels, flooring, and interior surface materials.', tags:['Interior','B2B','Award-Winning'], meta:[{l:'Founded',v:'2015'},{l:'Products',v:'Acoustic/Floor'},{l:'Awards',v:'Red Dot'}], icon:'🏛️' },
-      { name:'Officina Slowear', loc:'Venice, Italy', region:'Europe', type:'Brand', material:'Fungi Dye', desc:'Luxury Italian menswear house integrating fungi-derived dyes into heritage linen collections. Collaborative myco-dyeing workshop in Venice.', tags:['Luxury','Menswear','Heritage'], meta:[{l:'Founded',v:'1956'},{l:'Materials',v:'Linen/Fungi Dye'},{l:'Markets',v:'EU/JP/US'}], icon:'🇮🇹' },
-      { name:'Neffa', loc:'Amsterdam, Netherlands', region:'Europe', type:'Designer', material:'Myco-Textile', desc:'Dutch biofashion studio growing living mycelium textiles shaped directly on the body. Exhibited at MoMA, V&A, and Dutch Design Week.', tags:['Biofashion','Art','Exhibition'], meta:[{l:'Founded',v:'2015'},{l:'Shows',v:'MoMA, V&A'},{l:'Bio-Couture',v:'Yes'}], icon:'🎨' },
-      { name:'Biocouture', loc:'London, UK', region:'Europe', type:'Designer', material:'Myco-Textile', desc:'Suzanne Lee\'s pioneering bio-material fashion studio, growing bacterial cellulose and fungal composites into high-fashion garments.', tags:['Pioneer','Bio-material','Couture'], meta:[{l:'Founded',v:'2004'},{l:'TED Talks',v:'2'},{l:'Collections',v:'12+'}], icon:'💡' },
-      { name:'MycoWorks', loc:'San Francisco, USA', region:'North America', type:'Material', material:'Mycelium Leather', desc:'Reishi material — the luxury fine mycelium alternative to traditional leather. Partners with Hermès on fine leather goods. Proprietary Fine Mycelium technology.', tags:['Hermès Partner','Fine Mycelium','Luxury'], meta:[{l:'Founded',v:'2013'},{l:'Partner',v:'Hermès'},{l:'Funding',v:'$125M'}], icon:'👜' },
-      { name:'Anandalm', loc:'Amsterdam, Netherlands', region:'Europe', type:'Brand', material:'Mycelium Leather', desc:'B2C mycelium leather accessories brand. Wallets, bags, and cardholders made with Mylo and Reishi materials. Ships globally.', tags:['DTC','Accessories','Sustainable'], meta:[{l:'Founded',v:'2021'},{l:'Products',v:'Bags/Wallets'},{l:'Ships',v:'Global'}], icon:'👛' },
-      { name:'Mango Materials', loc:'San Francisco, USA', region:'North America', type:'Material', material:'Composite', desc:'Biopolymer company using methane-eating bacteria and fungal processes to create biodegradable synthetic fiber alternatives.', tags:['Fiber','Biodegradable','B2B'], meta:[{l:'Founded',v:'2010'},{l:'Material',v:'PHBH Fiber'},{l:'Stage',v:'Commercial'}], icon:'♻️' },
-      { name:'Fungi Fashion Collective', loc:'Berlin, Germany', region:'Europe', type:'Research', material:'Fungi Dye', desc:'Collective of designers, chemists, and artists experimenting with fungi-derived dyes, mordants, and living pigments for textile applications.', tags:['Research','Open Source','Community'], meta:[{l:'Members',v:'45'},{l:'Colors',v:'120+'},{l:'Open',v:'Yes'}], icon:'🎨' },
-    ]
-  },
-  {
-    id: 'tech',
-    name: 'Technology & Biotech',
-    icon: '⬡',
-    color: '#1a2e4a',
-    desc: 'Biomaterial companies, myco-computing researchers, agri-tech innovators, and biotech firms pushing the frontier of what fungi can do.',
-    stats: [{ n:'260+', l:'Listings' }, { n:'38', l:'Countries' }, { n:'$4.2B', l:'Myco-Biotech Market' }],
-    filters: [
-      { key: 'type', label: 'Type', opts: ['All','Startup','Research Lab','University','Corporate R&D','Non-Profit'] },
-      { key: 'field', label: 'Field', opts: ['All','Biomaterials','Computing','Agriculture','Bioremediation','Medicine','Packaging','Architecture'] }
-    ],
-    listings: [
-      { name:'Ecovative Design', loc:'Green Island, USA', region:'North America', type:'Startup', field:'Biomaterials', desc:'Pioneering company using mycelium composites to replace plastics and foams in packaging, construction, and material science.', tags:['Materials','Packaging','Pioneer'], meta:[{l:'Founded',v:'2007'},{l:'Revenue',v:'$10M+'},{l:'Patents',v:'100+'}], icon:'⬡' },
-      { name:'Ginkgo Bioworks', loc:'Boston, USA', region:'North America', type:'Corporate R&D', field:'Agriculture', desc:'Synthetic biology platform engineering fungal organisms for fragrance, food, agriculture, and pharmaceuticals at industrial scale.', tags:['SynBio','Industrial','NASDAQ'], meta:[{l:'Founded',v:'2009'},{l:'Public',v:'NYSE: DNA'},{l:'Cells',v:'100,000+/wk'}], icon:'🧬' },
-      { name:'Fungal Biofactory', loc:'Wageningen, Netherlands', region:'Europe', type:'Research Lab', field:'Medicine', desc:'Wageningen University spin-out developing edible fungal vaccines, anti-microbial compounds, and enzyme platforms from agricultural waste streams.', tags:['Academic','Pharma','EU Funded'], meta:[{l:'Founded',v:'2019'},{l:'Grants',v:'€8M'},{l:'Staff',v:'42'}], icon:'🔬' },
-      { name:'Neuroscape Myco', loc:'San Francisco, USA', region:'North America', type:'Research Lab', field:'Computing', desc:'UCSF-affiliated research group studying fungal network electrical signaling for potential neuromorphic computing applications.', tags:['Neuro','Computing','Academic'], meta:[{l:'PI',v:'Dr. A. Adamatzky'},{l:'Papers',v:'18'},{l:'Stage',v:'Fundamental'}], icon:'🧠' },
-      { name:'Biohm', loc:'London, UK', region:'Europe', type:'Startup', field:'Architecture', desc:'UK construction biotech using mycelium and organic waste to grow structural insulation panels, replacing conventional building materials.', tags:['Construction','Net-Zero','VC-backed'], meta:[{l:'Founded',v:'2016'},{l:'Funding',v:'£3.5M'},{l:'Pilots',v:'12 buildings'}], icon:'🏗️' },
-      { name:'Mogu', loc:'Inarzo, Italy', region:'Europe', type:'Startup', field:'Architecture', desc:'Mycelium composite interiors company — acoustic tiles, flooring, and surface materials for commercial and residential applications.', tags:['Interior','B2B','Design Award'], meta:[{l:'Founded',v:'2015'},{l:'Revenue',v:'€2M+'},{l:'Awards',v:'Red Dot 2023'}], icon:'🏛️' },
-      { name:'Mykos Technologies', loc:'Ghent, Belgium', region:'Europe', type:'Startup', field:'Agriculture', desc:'Mycorrhizal inoculant technology for precision agriculture — improving crop yield, reducing fertilizer use, and building soil health.', tags:['AgTech','Mycorrhizal','Soil'], meta:[{l:'Founded',v:'2018'},{l:'Funding',v:'€5M'},{l:'Trials',v:'30+ farms'}], icon:'🌾' },
-      { name:'Ostara Nutrient Recovery', loc:'Vancouver, Canada', region:'North America', type:'Startup', field:'Bioremediation', desc:'Using fungal and algal bioprocesses to extract phosphorus and nitrogen from wastewater, turning pollutants into fertilizer products.', tags:['Bioremediation','Circular','Water'], meta:[{l:'Founded',v:'2006'},{l:'Plants',v:'20+'},{l:'Nutrients',v:'P/N Recovery'}], icon:'💧' },
-      { name:'IFF Health', loc:'Brabrand, Denmark', region:'Europe', type:'Corporate R&D', field:'Medicine', desc:'Global fermentation and biotechnology leader with major fungal fermentation platforms for probiotics, enzymes, and pharmaceutical precursors.', tags:['Fermentation','Pharma','Global'], meta:[{l:'Revenue',v:'$12B+'},{l:'R&D',v:'$350M/yr'},{l:'Founded',v:'1873'}], icon:'🏢' },
-      { name:'Reishi Roads', loc:'Tokyo, Japan', region:'Asia', type:'Startup', field:'Bioremediation', desc:'Japanese environmental startup deploying mycelium for heavy metal remediation at contaminated industrial sites across East Asia.', tags:['Environmental','Remediation','Asia'], meta:[{l:'Founded',v:'2020'},{l:'Sites',v:'8 active'},{l:'Metals',v:'Pb/Hg/Cd'}], icon:'🌏' },
-    ]
-  },
-  {
-    id: 'education',
-    name: 'Education & Research',
-    icon: '◎',
-    color: '#2a2a15',
-    desc: 'Universities, online courses, books, field schools, mycological societies, and research programs advancing fungal knowledge worldwide.',
-    stats: [{ n:'290+', l:'Listings' }, { n:'60', l:'Countries' }, { n:'2.1M', l:'Active Students' }],
-    filters: [
-      { key: 'type', label: 'Type', opts: ['All','University','Online Course','Society','Field School','Book','Podcast','Research Program'] },
-      { key: 'level', label: 'Level', opts: ['All','Beginner','Intermediate','Advanced','Professional','Academic'] }
-    ],
-    listings: [
-      { name:'Paul Stamets / MycoSymbiotics', loc:'Olympia, USA', region:'North America', type:'Online Course', level:'All', desc:'The world\'s most famous mycologist offers online courses through his Fungi Perfecti platform. From basic identification to advanced cultivation techniques.', tags:['Icon','Cultivation','Identification'], meta:[{l:'Students',v:'500,000+'},{l:'Courses',v:'8'},{l:'Language',v:'English'}], icon:'🎓' },
-      { name:'North American Mycological Assoc.', loc:'Ann Arbor, USA', region:'North America', type:'Society', level:'Beginner', desc:'The continent\'s premier mycological society, organizing 90+ annual forays, an annual conference, and publishing journals on North American fungi.', tags:['Society','Foray','Journal'], meta:[{l:'Members',v:'6,000+'},{l:'Chapters',v:'80'},{l:'Founded',v:'1959'}], icon:'🍄' },
-      { name:'Wageningen University', loc:'Wageningen, Netherlands', region:'Europe', type:'University', level:'Academic', desc:'Globally ranked #1 agriculture university with dedicated MSc and PhD programs in mycology, fungal biotechnology, and plant-fungi interactions.', tags:['MSc/PhD','#1 Agri','Research'], meta:[{l:'Programs',v:'MSc/PhD'},{l:'Papers/yr',v:'200+'},{l:'Founded',v:'1918'}], icon:'🏫' },
-      { name:'Radical Mycology', loc:'Portland, USA', region:'North America', type:'Field School', level:'Intermediate', desc:'Community-based mycology education network hosting immersive field schools, convergences, and free educational resources on fungi ecology and culture.', tags:['Free','Field School','Community'], meta:[{l:'Founded',v:'2012'},{l:'Events/yr',v:'20+'},{l:'Free Materials',v:'Yes'}], icon:'🌲' },
-      { name:'British Mycological Society', loc:'London, UK', region:'Europe', type:'Society', level:'All', desc:'UK\'s 130-year-old mycological society publishing Fungal Biology journal, organizing national forays, and supporting mycological research programs.', tags:['130 Years','Journal','UK'], meta:[{l:'Founded',v:'1896'},{l:'Members',v:'1,800+'},{l:'Journal',v:'Fungal Biology'}], icon:'🇬🇧' },
-      { name:'Merlin Sheldrake', loc:'Devon, UK', region:'Europe', type:'Book', level:'Beginner', desc:'Author of Entangled Life — the decade\'s most important popular science book on fungi. Biologist and researcher at the Smithsonian Tropical Research Institute.', tags:['Book','Science Communication','Smithsonian'], meta:[{l:'Book',v:'Entangled Life'},{l:'Languages',v:'25'},{l:'Awards',v:'Wainwright Prize'}], icon:'📚' },
-      { name:'Mycological Society of America', loc:'Lawrence, USA', region:'North America', type:'Society', level:'Academic', desc:'Professional scientific society for mycologists, publishing Mycologia journal, organizing the annual MSA conference, and funding graduate research.', tags:['Professional','Journal','Grants'], meta:[{l:'Founded',v:'1932'},{l:'Journal',v:'Mycologia'},{l:'Members',v:'900+'}], icon:'🔬' },
-      { name:'DoubleBlind Magazine', loc:'Online', region:'Global', type:'Podcast', level:'Beginner', desc:'Trailblazing psychedelic journalism covering fungi in wellness, medicine, culture, and policy. Newsletter, magazine, and podcast reaching 2M+ readers.', tags:['Media','Psychedelic','Culture'], meta:[{l:'Founded',v:'2019'},{l:'Readers',v:'2M+'},{l:'Issues',v:'24+'}], icon:'📰' },
-      { name:'Mycology Online (Peter Katsaros)', loc:'Adelaide, Australia', region:'Oceania', type:'Online Course', level:'Intermediate', desc:'The internet\'s longest-running free mycology education platform, with detailed species databases, cultivation guides, and identification resources.', tags:['Free','Database','Cultivation'], meta:[{l:'Founded',v:'1996'},{l:'Species',v:'2,000+'},{l:'Free',v:'Yes'}], icon:'💻' },
-      { name:'Fungi Academy', loc:'Lake Atitlán, Guatemala', region:'Latin America', type:'Field School', level:'All', desc:'Immersive mushroom cultivation school set in the Guatemalan highlands. 2-week residential programs in gourmet and medicinal mushroom cultivation.', tags:['Residential','Cultivation','Guatemala'], meta:[{l:'Duration',v:'2 weeks'},{l:'Languages',v:'EN/ES'},{l:'Graduates',v:'3,000+'}], icon:'🌋' },
-    ]
-  },
-  {
-    id: 'community',
-    name: 'Community & Culture',
-    icon: '◉',
-    color: '#2a1a2e',
-    desc: 'Growers\' networks, foraging clubs, online communities, cultural movements, and the people and spaces where mushroom culture thrives.',
-    stats: [{ n:'400+', l:'Communities' }, { n:'68', l:'Countries' }, { n:'5M+', l:'Members' }],
-    filters: [
-      { key: 'type', label: 'Type', opts: ['All','Online Forum','Local Club','Growers Network','Cultural Org','Newsletter','Social Media'] },
-      { key: 'focus', label: 'Focus', opts: ['All','Foraging','Cultivation','Science','Culture','Psychedelic','Culinary'] }
-    ],
-    listings: [
-      { name:'Shroomery', loc:'Online / Global', region:'Global', type:'Online Forum', focus:'Cultivation', desc:'The internet\'s oldest and largest mushroom community forum, founded 1997. Home to cultivation tek archives, identification help, and the global myco underground.', tags:['Pioneer','Forum','Cultivation'], meta:[{l:'Founded',v:'1997'},{l:'Members',v:'1.2M+'},{l:'Posts',v:'25M+'}], icon:'🌐' },
-      { name:'London Fungus Group', loc:'London, UK', region:'Europe', type:'Local Club', focus:'Foraging', desc:'The UK\'s most active urban mycological society with monthly forays in London parks, ID workshops, and an annual wild mushroom dinner.', tags:['Foraging','Urban','Social'], meta:[{l:'Founded',v:'2001'},{l:'Members',v:'3,200+'},{l:'Events/yr',v:'24'}], icon:'🇬🇧' },
-      { name:'r/unclebens', loc:'Reddit / Global', region:'Global', type:'Online Forum', focus:'Cultivation', desc:'Reddit\'s beginner-friendly mushroom cultivation community. The starting point for millions of first-time growers navigating their first PF Tek and grain jars.', tags:['Beginner','Reddit','Cultivation'], meta:[{l:'Members',v:'400k+'},{l:'Platform',v:'Reddit'},{l:'Content',v:'Daily'}], icon:'👾' },
-      { name:'Myconauts Society', loc:'Barcelona, Spain', region:'Europe', type:'Cultural Org', focus:'Culture', desc:'Barcelona-based cultural association bridging mycology, art, philosophy, and ecology. Organizes the annual Myconauts Festival and art-science residencies.', tags:['Art','Festival','Spain'], meta:[{l:'Founded',v:'2014'},{l:'Festival',v:'Annual'},{l:'Residencies',v:'4/yr'}], icon:'🎭' },
-      { name:'Forage Bay Area', loc:'San Francisco, USA', region:'North America', type:'Local Club', focus:'Foraging', desc:'Bay Area\'s most active foraging community with 300+ members, weekly trail walks, expert-led identification workshops, and seasonal cookups.', tags:['Bay Area','Weekly','Cookup'], meta:[{l:'Members',v:'340'},{l:'Walks/yr',v:'40+'},{l:'Platform',v:'Meetup'}], icon:'🌉' },
-      { name:'Fungi Network Japan', loc:'Tokyo, Japan', region:'Asia', type:'Growers Network', focus:'Cultivation', desc:'Network of 800+ hobby and professional mushroom cultivators across Japan. Organizes annual Mushroom Fest, strain exchanges, and substrate innovation labs.', tags:['Japan','Network','Exchange'], meta:[{l:'Members',v:'800+'},{l:'Prefectures',v:'32'},{l:'Founded',v:'2011'}], icon:'🗾' },
-      { name:'Psymposia', loc:'Online / USA', region:'North America', type:'Cultural Org', focus:'Psychedelic', desc:'Critical journalism and community organizing at the intersection of psychedelics, mushrooms, policy, equity, and mental health.', tags:['Psychedelic','Policy','Media'], meta:[{l:'Founded',v:'2014'},{l:'Followers',v:'200k+'},{l:'Events',v:'Conferences'}], icon:'🧿' },
-      { name:'Wild Food UK', loc:'Online / UK', region:'Europe', type:'Newsletter', focus:'Foraging', desc:'UK\'s leading wild food and foraging newsletter and platform. 150,000 subscribers receive seasonal guides, ID tips, and mushroom recipe inspiration weekly.', tags:['Newsletter','UK','Free'], meta:[{l:'Subscribers',v:'150k+'},{l:'Founded',v:'2008'},{l:'Free',v:'Yes'}], icon:'📬' },
-      { name:'Mycorhiza Collective', loc:'Cape Breton, Canada', region:'North America', type:'Growers Network', focus:'Cultivation', desc:'Nova Scotia cooperative network of small-scale gourmet and medicinal mushroom growers, sharing spawn, knowledge, and access to regional markets.', tags:['Cooperative','Canada','Small-scale'], meta:[{l:'Members',v:'28 farms'},{l:'Species',v:'15+'},{l:'Market',v:'Regional'}], icon:'🍁' },
-      { name:'Mushroom Revival Podcast', loc:'Online / USA', region:'North America', type:'Social Media', focus:'Culture', desc:'The world\'s most downloaded mushroom podcast, with 400+ episodes covering cultivation, foraging, science, and the human stories of the myco world.', tags:['Podcast','400+ Episodes','Culture'], meta:[{l:'Episodes',v:'400+'},{l:'Downloads',v:'5M+'},{l:'Founded',v:'2018'}], icon:'🎙️' },
-    ]
-  },
-  {
-    id: 'events',
-    name: 'Events & Experiences',
-    icon: '◇',
-    color: '#3a2010',
-    desc: 'Festivals, forays, conferences, retreats, pop-ups, and gatherings where the global mushroom community connects in the real world.',
-    stats: [{ n:'150+', l:'Annual Events' }, { n:'45', l:'Countries' }, { n:'500k+', l:'Attendees/Year' }],
-    filters: [
-      { key: 'type', label: 'Type', opts: ['All','Festival','Conference','Foray','Retreat','Pop-Up','Competition'] },
-      { key: 'theme', label: 'Theme', opts: ['All','Foraging','Cultivation','Culinary','Science','Wellness','Cultural','Psychedelic'] }
-    ],
-    listings: [
-      { name:'Telluride Mushroom Festival', loc:'Telluride, USA', region:'North America', type:'Festival', theme:'Foraging', desc:'The world\'s oldest and most beloved mushroom festival, held annually in the Colorado Rockies since 1981. Forays, cooking demos, science talks, and wild mushroom markets.', tags:['Oldest','USA','Annual'], meta:[{l:'Since',v:'1981'},{l:'Duration',v:'5 days'},{l:'Attendees',v:'3,000+'}], icon:'⛰️' },
-      { name:'Fungal Futures Festival', loc:'Amsterdam, Netherlands', region:'Europe', type:'Festival', theme:'Cultural', desc:'Europe\'s most forward-thinking fungi festival combining art, science, design, gastronomy, and ecology across 3 days in Amsterdam.', tags:['Art+Science','EU','Multidisciplinary'], meta:[{l:'Since',v:'2019'},{l:'Duration',v:'3 days'},{l:'Visitors',v:'8,000'}], icon:'🌷' },
-      { name:'International Society for Mushroom Science Congress', loc:'Rotating', region:'Global', type:'Conference', theme:'Science', desc:'The world\'s premier scientific conference on mushroom science, held every 4 years. Covers cultivation research, genetics, nutrition, and market development.', tags:['Academic','Global','4-yearly'], meta:[{l:'Since',v:'1956'},{l:'Papers',v:'300+'},{l:'Delegates',v:'1,200'}], icon:'🔬' },
-      { name:'Symbiosis Gathering', loc:'California, USA', region:'North America', type:'Festival', theme:'Cultural', desc:'Multi-arts psychedelic culture festival with dedicated fungi education stage, mycology workshops, and the largest myco-arts installation in the US.', tags:['Psychedelic','Arts','Camping'], meta:[{l:'Since',v:'2004'},{l:'Capacity',v:'8,000'},{l:'Duration',v:'4 days'}], icon:'🌀' },
-      { name:'Nordic Wild Food Challenge', loc:'Copenhagen, Denmark', region:'Europe', type:'Competition', theme:'Culinary', desc:'Scandinavia\'s premier wild food competition, with a dedicated mushroom category drawing Michelin chefs and foragers to cook with foraged fungi.', tags:['Competition','Nordic','Michelin'], meta:[{l:'Since',v:'2012'},{l:'Entries',v:'200+'},{l:'Prize',v:'€20,000'}], icon:'🏆' },
-      { name:'Mycelium Mystery Retreat', loc:'Oaxaca, Mexico', region:'Latin America', type:'Retreat', theme:'Psychedelic', desc:'10-day immersive retreat in Oaxaca integrating Mazatec mushroom ceremony traditions with modern integration support, set in a mountain retreat center.', tags:['Retreat','Mazatec','10-day'], meta:[{l:'Capacity',v:'14'},{l:'Duration',v:'10 days'},{l:'Since',v:'2016'}], icon:'🌋' },
-      { name:'Fungi Festival UK', loc:'Sussex, UK', region:'Europe', type:'Festival', theme:'Foraging', desc:'Britain\'s fastest-growing mushroom festival in the South Downs. Expert-led foraging walks, identification tents, gourmet mushroom food stalls, and family forays.', tags:['UK','Family','Foraging'], meta:[{l:'Since',v:'2017'},{l:'Duration',v:'2 days'},{l:'Visitors',v:'4,000'}], icon:'🌿' },
-      { name:'Tokyo Mushroom Market', loc:'Tokyo, Japan', region:'Asia', type:'Pop-Up', theme:'Culinary', desc:'Annual autumn pop-up market in Aoyama bringing together specialty mushroom growers, chefs, and artisan producers for a 3-day gourmet fungi celebration.', tags:['Pop-Up','Japan','Gourmet'], meta:[{l:'Since',v:'2015'},{l:'Vendors',v:'60+'},{l:'Duration',v:'3 days'}], icon:'🗾' },
-      { name:'Psychedelic Science Conference', loc:'Denver, USA', region:'North America', type:'Conference', theme:'Psychedelic', desc:'The world\'s largest psychedelic research conference, with substantial psilocybin and fungi science content. Organized by MAPS Foundation.', tags:['Research','MAPS','Policy'], meta:[{l:'Attendees',v:'12,000+'},{l:'Speakers',v:'300+'},{l:'Since',v:'2010'}], icon:'🧠' },
-      { name:'Australian Fungi Expo', loc:'Melbourne, Australia', region:'Oceania', type:'Festival', theme:'Science', desc:'Southern hemisphere\'s premier fungi event, combining scientific symposium, culinary showcase, growing competition, and public education in a 4-day format.', tags:['AU/NZ','Annual','Science'], meta:[{l:'Since',v:'2016'},{l:'Exhibitors',v:'120+'},{l:'Visitors',v:'6,000'}], icon:'🦘' },
-    ]
-  },
-  {
-    id: 'brands',
-    name: 'Brand Marketplace',
-    icon: '⊕',
-    color: '#1a1e2e',
-    desc: 'The curated global directory of mushroom-forward consumer and professional brands across every category.',
-    stats: [{ n:'600+', l:'Brands Listed' }, { n:'70', l:'Countries' }, { n:'$86B', l:'Total Market 2030' }],
-    filters: [
-      { key: 'category', label: 'Category', opts: ['All','Food & Bev','Supplements','Skincare & Beauty','Fashion','Home & Living','Pet','Technology'] },
-      { key: 'stage', label: 'Stage', opts: ['All','Startup','Growth','Established','Enterprise','Non-Profit'] }
-    ],
-    listings: [
-      { name:'RYZE Superfoods', loc:'Austin, USA', region:'North America', category:'Food & Bev', stage:'Growth', desc:'One of the fastest growing mushroom coffee brands in the US. RYZE combines 6 functional mushrooms with organic arabica coffee for cognitive and energy support.', tags:['Coffee','DTC','Fastest Growing'], meta:[{l:'Founded',v:'2020'},{l:'Revenue',v:'$40M+'},{l:'Retail',v:'Walmart, Target'}], icon:'☕' },
-      { name:'Moon Juice', loc:'Los Angeles, USA', region:'North America', category:'Supplements', stage:'Established', desc:'LA\'s cult wellness brand featuring lion\'s mane Brain Dust and reishi Beauty Dust as flagship SKUs. Brick-and-mortar + DTC with celebrity following.', tags:['Wellness','Celebrity','Dust Range'], meta:[{l:'Founded',v:'2012'},{l:'SKUs',v:'50+'},{l:'Stores',v:'5 LA'}], icon:'🌙' },
-      { name:'Toadstool Beauty', loc:'London, UK', region:'Europe', category:'Skincare & Beauty', stage:'Growth', desc:'UK clean beauty brand pioneering fungi-derived skincare — tremella hyaluronic acid, chaga antioxidant serum, and cordyceps brightening range.', tags:['Skincare','Fungi-Derived','Clean Beauty'], meta:[{l:'Founded',v:'2020'},{l:'SKUs',v:'22'},{l:'Retail',v:'Selfridges, SPACE NK'}], icon:'🧴' },
-      { name:'Harmonic Arts', loc:'Vancouver, Canada', region:'North America', category:'Supplements', stage:'Established', desc:'Canadian certified organic herbal and mushroom company. 5-mushroom and single-extract powders trusted by naturopaths and functional medicine practitioners.', tags:['Organic','Practitioner','Canada'], meta:[{l:'Founded',v:'2011'},{l:'SKUs',v:'80+'},{l:'Channel',v:'Practitioner/Retail'}], icon:'🍁' },
-      { name:'Biologique Recherche', loc:'Paris, France', region:'Europe', category:'Skincare & Beauty', stage:'Established', desc:'Legendary French skincare brand incorporating fungal ferments and mycelium-derived compounds into their cult P50 and Masque range.', tags:['French','Cult','Professional'], meta:[{l:'Founded',v:'1970s'},{l:'Countries',v:'90+'},{l:'Channel',v:'Professional Only'}], icon:'🇫🇷' },
-      { name:'Shroomadelic', loc:'Amsterdam, Netherlands', region:'Europe', category:'Food & Bev', stage:'Startup', desc:'Dutch functional mushroom snack brand — lion\'s mane chocolates, chaga energy bars, and reishi gummies for on-the-go wellness.', tags:['Snacks','Functional','EU'], meta:[{l:'Founded',v:'2022'},{l:'SKUs',v:'12'},{l:'Retail',v:'Holland & Barrett'}], icon:'🍫' },
-      { name:'Meati Foods', loc:'Boulder, USA', region:'North America', category:'Food & Bev', stage:'Growth', desc:'Next-generation whole-food meat alternative made from mycelium root — whole muscle cuts, chicken-style, and steak made from fungal protein.', tags:['Meat Alternative','VC-Backed','Protein'], meta:[{l:'Founded',v:'2019'},{l:'Funding',v:'$150M+'},{l:'Retail',v:'Whole Foods'}], icon:'🥩' },
-      { name:'Yoshi Pet Foods', loc:'Berlin, Germany', region:'Europe', category:'Pet', stage:'Startup', desc:'First mushroom-forward functional pet food brand in Europe. Reishi and shiitake blends for dogs and cats, clinically tested for immunity and longevity.', tags:['Pet','EU First','Functional'], meta:[{l:'Founded',v:'2023'},{l:'SKUs',v:'8'},{l:'Species',v:'Dog/Cat'}], icon:'🐾' },
-      { name:'Sprout Living', loc:'New York, USA', region:'North America', category:'Supplements', stage:'Established', desc:'Organic plant-based protein and mushroom supplement brand. Epic Protein + mushroom blends are a staple in the yoga and wellness community.', tags:['Protein','Yoga','Organic'], meta:[{l:'Founded',v:'2013'},{l:'SKUs',v:'30+'},{l:'Retail',v:'Amazon, iHerb'}], icon:'🌱' },
-      { name:'DIRTEA', loc:'London, UK', region:'Europe', category:'Food & Bev', stage:'Growth', desc:'Premium UK mushroom tea, coffee, and elixir brand. DIRTEA is one of the fastest-growing wellness brands in the UK with an engaged social-first community.', tags:['UK','Social-First','Tea/Coffee'], meta:[{l:'Founded',v:'2021'},{l:'Retail',v:'Selfridges, Ocado'},{l:'SKUs',v:'20+'}], icon:'🍵' },
-    ]
-  }
+  {id:'all',name:'All Listings',icon:'◉',
+   desc:'Every brand, organization, person, and community across all worlds of the Mushmor platform.',
+   stats:[{n:'—',l:'Total'},{n:'—',l:'Countries'},{n:'11',l:'Worlds'}],filters:[]},
+  {id:'legends',name:'Mushroom Legends',icon:'✦',
+   desc:'The visionaries, scientists, artists, and advocates who have dedicated their lives to revealing the intelligence of fungi.',
+   stats:[{n:'—',l:'Legends'},{n:'—',l:'Countries'},{n:'Lifetimes',l:'of work'}],
+   filters:[{key:'field',label:'Field',opts:['All','Science','Ethnomycology','Advocacy','Art & Culture','Medicine','Cultivation','Philosophy']}]},
+  {id:'library',name:'The Library',icon:'📚',
+   desc:'Every essential mushroom book, article, journal, and publication from around the world, in every language.',
+   stats:[{n:'—',l:'Titles'},{n:'—',l:'Languages'},{n:'120',l:'Years of writing'}],
+   filters:[
+     {key:'type',label:'Type',opts:['All','Book','Article','Field Guide','Journal','Cookbook','Memoir','Academic']},
+     {key:'topic',label:'Topic',opts:['All','Identification','Cultivation','Science','Cooking','Psychedelic','History','Philosophy','Memoir']},
+     {key:'language',label:'Language',opts:['All','English','Spanish','French','German','Italian','Japanese','Mandarin','Portuguese','Russian','Dutch','Czech','Finnish']}
+   ]},
+  {id:'map',name:'Mushroom World Map',icon:'🗺️',
+   desc:'A living atlas of mushroom seasons around the world. Click any region to see what\'s growing now.',
+   stats:[{n:'—',l:'Regions'},{n:'—',l:'Species'},{n:'Year-round',l:'Data'}],
+   filters:[],isMap:true},
+  {id:'restaurants',name:'Restaurants',icon:'🍽️',
+   desc:'The global directory of mushroom-specialized restaurants — from Michelin-starred fungi tasting menus to neighborhood gems.',
+   stats:[{n:'—',l:'Restaurants'},{n:'—',l:'Countries'},{n:'—',l:'Michelin'}],
+   filters:[
+     {key:'type',label:'Cuisine',opts:['All','Modern European','Japanese','Italian','French','Nordic','Asian Fusion','Vegan','American','Mediterranean']},
+     {key:'specialty',label:'Tier',opts:['All','Michelin Starred','Fine Dining','Casual Fine','Bistro','Casual','Pop-Up']}
+   ]},
+  {id:'food',name:'Food & Gastronomy',icon:'🍄',
+   desc:'Restaurants, growers, ingredient suppliers, chefs, food brands, and culinary innovators.',
+   stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$28B',l:'Market'}],
+   filters:[
+     {key:'type',label:'Type',opts:['All','Restaurant','Grower','Supplier','Brand','Chef','Distributor','Market']},
+     {key:'specialty',label:'Specialty',opts:['All','Gourmet','Medicinal','Functional','Fermented','Dried','Fresh','Foraged']}
+   ]},
+  {id:'wellness',name:'Wellness & Adaptogens',icon:'✦',
+   desc:'Supplement brands, practitioners, research institutes, and wellness companies.',
+   stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$24B',l:'Market 2030'}],
+   filters:[
+     {key:'type',label:'Type',opts:['All','Brand','Practitioner','Research','Clinic','Supplement','Tonic']},
+     {key:'specialty',label:'Focus',opts:['All','Cognitive','Immunity','Energy','Stress','Sleep','Gut','Longevity']}
+   ]},
+  {id:'fashion',name:'Fashion & Materials',icon:'◈',
+   desc:'Mycelium leather innovators, fungi textile designers, sustainable fashion brands.',
+   stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$9B',l:'Bio-Materials 2028'}],
+   filters:[
+     {key:'type',label:'Type',opts:['All','Brand','Material','Designer','Manufacturer','Research','Retailer']},
+     {key:'specialty',label:'Material',opts:['All','Mycelium Leather','Fungi Dye','Myco-Textile','Composite','Packaging']}
+   ]},
+  {id:'tech',name:'Technology & Biotech',icon:'⬡',
+   desc:'Biomaterial companies, myco-computing researchers, agri-tech innovators.',
+   stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$4.2B',l:'Myco-Biotech'}],
+   filters:[
+     {key:'type',label:'Type',opts:['All','Startup','Research Lab','University','Corporate R&D','Non-Profit']},
+     {key:'field',label:'Field',opts:['All','Biomaterials','Computing','Agriculture','Bioremediation','Medicine','Packaging','Architecture']}
+   ]},
+  {id:'education',name:'Education & Research',icon:'◎',
+   desc:'Universities, courses, societies, field schools, and research programs.',
+   stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'2.1M',l:'Active Students'}],
+   filters:[
+     {key:'type',label:'Type',opts:['All','University','Online Course','Society','Field School','Research Program']},
+     {key:'specialty',label:'Level',opts:['All','Beginner','Intermediate','Advanced','Professional','Academic']}
+   ]},
+  {id:'community',name:'Community & Culture',icon:'◉',
+   desc:'Growers\' networks, foraging clubs, online communities, and cultural movements.',
+   stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'5M+',l:'Members'}],
+   filters:[
+     {key:'type',label:'Type',opts:['All','Online Forum','Local Club','Growers Network','Cultural Org','Newsletter','Social Media']},
+     {key:'field',label:'Focus',opts:['All','Foraging','Cultivation','Science','Culture','Psychedelic','Culinary']}
+   ]},
+  {id:'events',name:'Events & Experiences',icon:'◇',
+   desc:'Festivals, forays, conferences, retreats, pop-ups, and gatherings.',
+   stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'500k+',l:'Attendees/Year'}],
+   filters:[
+     {key:'type',label:'Type',opts:['All','Festival','Conference','Foray','Retreat','Pop-Up','Competition']},
+     {key:'field',label:'Theme',opts:['All','Foraging','Cultivation','Culinary','Science','Wellness','Cultural','Psychedelic']}
+   ]},
+  {id:'brands',name:'Brand Marketplace',icon:'⊕',
+   desc:'The curated global directory of mushroom-forward consumer and professional brands.',
+   stats:[{n:'—',l:'Listings'},{n:'—',l:'Countries'},{n:'$86B',l:'Market 2030'}],
+   filters:[
+     {key:'type',label:'Category',opts:['All','Food & Bev','Supplements','Skincare','Fashion','Home & Living','Pet','Technology']},
+     {key:'specialty',label:'Stage',opts:['All','Startup','Growth','Established','Enterprise']}
+   ]}
 ];
 
-// ══════════════════════════════════════════════
-// NAV BUILD
-// ══════════════════════════════════════════════
-const navEl = document.getElementById('navVerticals');
-VERTICALS.forEach(v => {
-  const li = document.createElement('li');
-  li.innerHTML = `<a href="#" onclick="showVertical('${v.id}',event)" data-id="${v.id}">${v.icon} ${v.name.split(' ')[0]}</a>`;
-  navEl.appendChild(li);
-});
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// ══════════════════════════════════════════════
-// HOME BUILD
-// ══════════════════════════════════════════════
-const homeGrid = document.getElementById('homeVerticalsGrid');
-VERTICALS.forEach(v => {
-  const c = document.createElement('div');
-  c.className = 'home-v-card';
-  c.innerHTML = `
-    <span class="hvc-icon">${v.icon}</span>
-    <div class="hvc-name">${v.name}</div>
-    <div class="hvc-count">${v.stats[0].n} ${v.stats[0].l}</div>
-    <div class="hvc-desc">${v.desc.split('.')[0]}.</div>
-  `;
-  c.onclick = () => showVertical(v.id);
-  homeGrid.appendChild(c);
-});
+// GLOBAL DATA (fetched on load)
+let ALL_LISTINGS = [];
+let ALL_REGIONS = [];
+let ALL_MUSHROOMS = [];
 
-// ══════════════════════════════════════════════
-// ROUTING
-// ══════════════════════════════════════════════
-let currentVertical = null;
-let activeFilters = {};
-let searchQuery = '';
-let viewMode = 'grid';
+// STATE
+let cur = null, af = {}, sq = '', vm = 'grid';
+let mapMonth = new Date().getMonth();
+let mapRegion = null;
 
-function showHome(e) {
-  if(e) e.preventDefault();
-  document.getElementById('home-view').classList.remove('hidden');
-  document.getElementById('vertical-view').classList.remove('active');
-  document.querySelectorAll('.nav-verticals a').forEach(a => a.classList.remove('active'));
-  currentVertical = null;
+// ═══════════════════════════════════════
+// INITIAL LOAD
+// ═══════════════════════════════════════
+async function init() {
+  // Build nav + home with counts placeholder
+  buildNav();
+  buildHome();
+
+  try {
+    // Fetch everything in parallel
+    const [listings, regions, mushrooms] = await Promise.all([
+      sbFetch('listings', 'select=*&status=eq.published&order=created_at.desc&limit=1000'),
+      sbFetch('map_regions', 'select=*'),
+      sbFetch('mushrooms', 'select=*')
+    ]);
+    ALL_LISTINGS = listings;
+    ALL_REGIONS = regions;
+    ALL_MUSHROOMS = mushrooms;
+
+    // Update home counts with real data
+    updateHomeCounts();
+  } catch (err) {
+    console.error('Failed to load data:', err);
+    document.getElementById('homeGrid').innerHTML =
+      '<div style="grid-column:1/-1;padding:40px;color:var(--mist);text-align:center;font-size:11px;">Unable to load listings. Check your internet connection and try again.</div>';
+  }
 }
 
-function showVertical(id, e) {
-  if(e) e.preventDefault();
-  currentVertical = VERTICALS.find(v => v.id === id);
-  activeFilters = {};
-  searchQuery = '';
-
-  document.getElementById('home-view').classList.add('hidden');
-  const vv = document.getElementById('vertical-view');
-  vv.classList.add('active');
-
-  // Nav highlight
-  document.querySelectorAll('.nav-verticals a').forEach(a => {
-    a.classList.toggle('active', a.dataset.id === id);
+function buildNav() {
+  const navEl = document.getElementById('navLinks');
+  VERTICALS.forEach(v => {
+    const li = document.createElement('li');
+    const shortName = v.name === 'Mushroom World Map' ? 'Map'
+      : v.name === 'The Library' ? 'Library'
+      : v.name === 'Mushroom Legends' ? 'Legends'
+      : v.name === 'All Listings' ? 'All'
+      : v.name.split(' ')[0];
+    li.innerHTML = `<a data-id="${v.id}" onclick="goto('${v.id}',event)">${v.icon} ${shortName}</a>`;
+    navEl.appendChild(li);
   });
+}
 
+function buildHome() {
+  const homeGrid = document.getElementById('homeGrid');
+  homeGrid.innerHTML = '';
+  VERTICALS.forEach(v => {
+    const c = document.createElement('div');
+    c.className = 'hc';
+    c.innerHTML = `<div class="hc-ic">${v.icon}</div><div class="hc-nm">${v.name}</div><div class="hc-ct" id="hc-${v.id}">${v.stats[0].n} ${v.stats[0].l}</div><div class="hc-ds">${v.desc.split('.')[0]}.</div>`;
+    c.onclick = () => goto(v.id);
+    homeGrid.appendChild(c);
+  });
+}
+
+function updateHomeCounts() {
+  VERTICALS.forEach(v => {
+    let count;
+    if (v.id === 'all') count = ALL_LISTINGS.length;
+    else if (v.id === 'map') count = ALL_REGIONS.length;
+    else count = ALL_LISTINGS.filter(l => l.vertical === v.id).length;
+
+    const el = document.getElementById(`hc-${v.id}`);
+    if (el) el.textContent = `${count}+ ${v.stats[0].l}`;
+  });
+}
+
+function goHome(e) {
+  if (e) e.preventDefault();
+  document.getElementById('hv').classList.remove('off');
+  document.getElementById('vv').classList.remove('on');
+  document.querySelectorAll('.n-links a').forEach(a => a.classList.remove('on'));
+  cur = null;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function goto(id, e) {
+  if (e) e.preventDefault();
+  cur = VERTICALS.find(v => v.id === id);
+  if (!cur) return;
+  af = {}; sq = ''; vm = 'grid';
+  mapRegion = null;
+  document.getElementById('hv').classList.add('off');
+  document.getElementById('vv').classList.add('on');
+  document.querySelectorAll('.n-links a').forEach(a => a.classList.toggle('on', a.dataset.id === id));
   buildHero();
-  buildFilters();
-  buildGrid();
-
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (cur.isMap) buildMap();
+  else { buildFilters(); buildGrid(); }
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function buildHero() {
-  const v = currentVertical;
-  const statsHtml = v.stats.map(s => `
-    <div>
-      <div class="vhero-stat-num">${s.n}</div>
-      <div class="vhero-stat-label">${s.l}</div>
-    </div>
-  `).join('');
-
-  document.getElementById('verticalHero').innerHTML = `
-    <div class="vhero-breadcrumb">
-      <button onclick="showHome()">← Mushmor</button>
-      <span>/</span>
-      <span>${v.name}</span>
-    </div>
-    <div class="vhero-top">
-      <div>
-        <div class="vhero-icon">${v.icon}</div>
-        <h1 class="vhero-title">${v.name}</h1>
-        <div class="vhero-stats">${statsHtml}</div>
-      </div>
-      <p class="vhero-desc">${v.desc}</p>
-    </div>
-  `;
+  const v = cur;
+  // Compute live stats from data
+  const liveStats = [...v.stats];
+  if (v.id === 'all') {
+    liveStats[0] = {n: `${ALL_LISTINGS.length}`, l: 'Total'};
+    liveStats[1] = {n: `${new Set(ALL_LISTINGS.map(l=>l.country).filter(Boolean)).size}`, l: 'Countries'};
+  } else if (v.id === 'map') {
+    liveStats[0] = {n: `${ALL_REGIONS.length}`, l: 'Regions'};
+    liveStats[1] = {n: `${ALL_MUSHROOMS.length}`, l: 'Species'};
+  } else {
+    const vListings = ALL_LISTINGS.filter(l => l.vertical === v.id);
+    liveStats[0] = {n: `${vListings.length}`, l: liveStats[0].l};
+    liveStats[1] = {n: `${new Set(vListings.map(l=>l.country).filter(Boolean)).size}`, l: 'Countries'};
+  }
+  const st = liveStats.map(s => `<div><div class="vsn">${s.n}</div><div class="vsl">${s.l}</div></div>`).join('');
+  document.getElementById('vHero').innerHTML = `
+    <div class="vbc"><button onclick="goHome()">← Mushmor</button><span>/</span><span>${v.name}</span></div>
+    <div class="v-top">
+      <div class="v-top-l"><div class="vic">${v.icon}</div><h1>${v.name}</h1><div class="v-stats">${st}</div></div>
+      <p class="v-top-r">${v.desc}</p>
+    </div>`;
 }
 
+// ═══════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════
 function buildFilters() {
-  const v = currentVertical;
-  let html = '';
+  const v = cur;
+  const fbar = document.getElementById('fBar');
+  const body = document.getElementById('vBody');
 
-  v.filters.forEach(f => {
-    activeFilters[f.key] = 'All';
-    html += `<div class="filter-group">
-      <span class="filter-label">${f.label}:</span>`;
-    f.opts.forEach(opt => {
-      html += `<button class="filter-chip${opt==='All'?' active':''}" 
-        data-key="${f.key}" data-val="${opt}"
-        onclick="setFilter('${f.key}','${opt}',this)">${opt}</button>`;
-    });
-    html += `</div><div class="filter-divider"></div>`;
+  body.innerHTML = `
+    <div class="active-filters" id="activeFilters"></div>
+    <div class="dir-shell">
+      <div class="dir-meta">
+        <span class="dir-count"><b id="rCount">0</b> listings</span>
+        <div class="view-btns">
+          <button class="vb on" id="gbtn" onclick="setView('grid')" title="Grid">⊞</button>
+          <button class="vb" id="lbtn" onclick="setView('list')" title="List">☰</button>
+        </div>
+      </div>
+      <div class="d-grid" id="dGrid"></div>
+    </div>`;
+
+  if (!v.filters || !v.filters.length) {
+    fbar.innerHTML = `<div class="f-search-wrap" style="margin-left:0;padding-left:0"><input class="fq" type="text" placeholder="Search all listings…" oninput="ss(this.value)" style="width:280px"></div>`;
+    return;
+  }
+
+  const allF = [...v.filters, {key:'region', label:'Region', opts:['All','North America','Europe','Asia','Latin America','Oceania','Africa','Global']}];
+  let h = '';
+  allF.forEach((f, i) => {
+    af[f.key] = 'All';
+    h += `<div class="fg" id="fg-${f.key}">
+      <button class="fg-btn" onclick="toggleFg('${f.key}',event)">
+        <span>${f.label}</span>
+        <span class="fg-pill" id="fgp-${f.key}"></span>
+        <span class="fg-arrow">▾</span>
+      </button>
+      <div class="fg-panel">`;
+    f.opts.forEach(o => h += `<button class="fo${o==='All'?' on':''}" data-k="${f.key}" data-v="${o}" onclick="sf('${f.key}','${o}',event)">${o}</button>`);
+    h += `</div></div>`;
+    if (i < allF.length - 1) h += `<div class="f-div"></div>`;
   });
-
-  // Location filter
-  const regions = ['All','North America','Europe','Asia','Latin America','Oceania','Africa','Global'];
-  html += `<div class="filter-group">
-    <span class="filter-label">Region:</span>`;
-  regions.forEach(r => {
-    html += `<button class="filter-chip${r==='All'?' active':''}" 
-      data-key="region" data-val="${r}"
-      onclick="setFilter('region','${r}',this)">${r}</button>`;
-  });
-  html += `</div>`;
-  activeFilters['region'] = 'All';
-
-  html += `<input class="filter-search" type="text" placeholder="Search listings..." oninput="setSearch(this.value)" value="">`;
-
-  document.getElementById('filterBar').innerHTML = html;
+  h += `<div class="f-search-wrap"><input class="fq" type="text" placeholder="Search…" oninput="ss(this.value)"></div>`;
+  fbar.innerHTML = h;
 }
 
-function setFilter(key, val, btn) {
-  activeFilters[key] = val;
-  // Update active chip in group
-  document.querySelectorAll(`.filter-chip[data-key="${key}"]`).forEach(c => {
-    c.classList.toggle('active', c.dataset.val === val);
-  });
-  buildGrid();
+function toggleFg(key, e) {
+  e.stopPropagation();
+  const fg = document.getElementById('fg-' + key);
+  const wasOpen = fg.classList.contains('open');
+  document.querySelectorAll('.fg.open').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) fg.classList.add('open');
 }
 
-function setSearch(val) {
-  searchQuery = val.toLowerCase();
+document.addEventListener('click', () => {
+  document.querySelectorAll('.fg.open').forEach(el => el.classList.remove('open'));
+});
+
+function sf(key, val, e) {
+  e.stopPropagation();
+  af[key] = val;
+  document.querySelectorAll(`.fo[data-k="${key}"]`).forEach(c => c.classList.toggle('on', c.dataset.v === val));
+  const pill = document.getElementById('fgp-' + key);
+  if (pill) { pill.textContent = val; pill.style.display = val === 'All' ? 'none' : 'inline'; }
+  const btn = document.querySelector(`#fg-${key} .fg-btn`);
+  if (btn) btn.classList.toggle('has-val', val !== 'All');
+  document.getElementById('fg-' + key)?.classList.remove('open');
   buildGrid();
+  updateActiveFilters();
+}
+
+function ss(v) { sq = v.toLowerCase(); buildGrid(); }
+function clearFilter(key) { sf(key, 'All', { stopPropagation: () => {} }); }
+function clearAll() {
+  if (!cur) return;
+  const allF = [...(cur.filters || []), { key: 'region' }];
+  allF.forEach(f => { af[f.key] = 'All'; });
+  sq = '';
+  const qi = document.querySelector('.fq');
+  if (qi) qi.value = '';
+  buildFilters();
+  buildGrid();
+  updateActiveFilters();
+}
+
+function updateActiveFilters() {
+  const strip = document.getElementById('activeFilters');
+  if (!strip) return;
+  const active = Object.entries(af).filter(([k, v]) => v && v !== 'All');
+  if (!active.length) { strip.classList.remove('show'); return; }
+  strip.classList.add('show');
+  strip.innerHTML = `<span>Active:</span>` +
+    active.map(([k, v]) => `<span class="af-chip" onclick="clearFilter('${k}')">${k}: ${v} <span>✕</span></span>`).join('') +
+    `<button class="clear-all" onclick="clearAll()">Clear all</button>`;
 }
 
 function setView(mode) {
-  viewMode = mode;
-  document.getElementById('gridViewBtn').classList.toggle('active', mode==='grid');
-  document.getElementById('listViewBtn').classList.toggle('active', mode==='list');
-  const shell = document.querySelector('.directory-shell');
-  shell.classList.toggle('dir-list', mode==='list');
+  vm = mode;
+  document.getElementById('gbtn').classList.toggle('on', mode === 'grid');
+  document.getElementById('lbtn').classList.toggle('on', mode === 'list');
+  document.querySelector('.dir-shell').classList.toggle('list-mode', mode === 'list');
   buildGrid();
 }
 
+// ═══════════════════════════════════════
+// GRID
+// ═══════════════════════════════════════
 function buildGrid() {
-  const v = currentVertical;
-  const grid = document.getElementById('dirGrid');
-  grid.innerHTML = '';
+  const v = cur, g = document.getElementById('dGrid');
+  if (!g) return;
+  g.innerHTML = '';
+  const isAll = v.id === 'all';
+  const isLegends = v.id === 'legends';
+  const isLibrary = v.id === 'library';
 
-  const filtered = v.listings.filter(l => {
-    // Vertical-specific filters
-    let pass = true;
-    v.filters.forEach(f => {
-      if (activeFilters[f.key] && activeFilters[f.key] !== 'All') {
-        if (l[f.key] !== activeFilters[f.key]) pass = false;
-      }
+  // Choose source rows
+  const source = isAll ? ALL_LISTINGS : ALL_LISTINGS.filter(l => l.vertical === v.id);
+
+  const filtered = source.filter(l => {
+    let ok = true;
+    (v.filters || []).forEach(f => {
+      if (af[f.key] && af[f.key] !== 'All' && l[f.key] !== af[f.key]) ok = false;
     });
-    // Region filter
-    if (activeFilters['region'] && activeFilters['region'] !== 'All') {
-      if (l.region !== activeFilters['region']) pass = false;
+    if (af['region'] && af['region'] !== 'All' && l.region !== af['region']) ok = false;
+    if (sq) {
+      const tagstr = (l.tags||[]).join(' ');
+      const hay = `${l.name||''} ${l.location||''} ${l.description||''} ${l.quote||''} ${l.author||''} ${tagstr}`.toLowerCase();
+      if (!hay.includes(sq)) ok = false;
     }
-    // Search
-    if (searchQuery) {
-      const hay = (l.name+' '+l.loc+' '+l.desc+' '+l.tags.join(' ')).toLowerCase();
-      if (!hay.includes(searchQuery)) pass = false;
-    }
-    return pass;
+    return ok;
   });
 
-  document.getElementById('resultsCount').textContent = filtered.length;
+  document.getElementById('rCount').textContent = filtered.length;
 
-  if (filtered.length === 0) {
-    grid.innerHTML = `<div class="no-results show"><span class="no-results-icon">🍄</span>No listings match your filters.<br>Try broadening your search.</div>`;
+  if (!filtered.length) {
+    g.innerHTML = `<div class="no-res on"><span class="no-res-ic">🍄</span>No listings match your filters.<br><button onclick="clearAll()">Clear filters</button></div>`;
     return;
   }
 
   filtered.forEach((l, i) => {
-    const metaHtml = l.meta.map(m => `
-      <div class="listing-meta-item">
-        <span class="lmi-label">${m.l}</span>
-        <span class="lmi-value">${m.v}</span>
-      </div>
-    `).join('');
+    const meta = Array.isArray(l.meta) ? l.meta : [];
+    const metaHTML = meta.map(m => `<div class="lmi"><span class="lml">${m.l}</span><span class="lmv">${m.v}</span></div>`).join('');
+    const tagsHTML = (l.tags || []).map(t => `<span class="l-tag">${t}</span>`).join('');
 
-    const tagsHtml = l.tags.map(t => `<span class="listing-tag">${t}</span>`).join('');
+    // Badge logic
+    let badge;
+    if (isAll) {
+      const vName = VERTICALS.find(x => x.id === l.vertical)?.name.split(' ')[0] || '';
+      badge = `<span class="l-vert-tag">${vName}</span>`;
+    } else if (isLibrary) {
+      badge = `<span class="book-lang">${l.language || ''}</span>`;
+    } else {
+      badge = `<span class="l-badge">${l.type || l.specialty || ''}</span>`;
+    }
 
-    // Get vertical-specific badge key
-    const badgeKey = v.filters[0]?.key;
-    const badge = l[badgeKey] || '';
+    const linkLabel = isLibrary ? 'Find Book' : isLegends ? 'Visit Site' : 'Go to Website';
+    const url = l.url || '#';
+    const linkHTML = `<a class="l-link" href="${url}" target="_blank" rel="noopener">${linkLabel}</a>`;
 
-    const card = document.createElement('div');
-    card.className = 'listing-card';
-    card.style.animationDelay = (i * 0.04) + 's';
-    card.innerHTML = `
-      <div class="listing-header">
-        <div class="listing-icon">${l.icon}</div>
-        <span class="listing-type-badge">${badge}</span>
-      </div>
-      <div class="listing-name">${l.name}</div>
-      <div class="listing-location">${l.loc}</div>
-      <p class="listing-desc">${l.desc}</p>
-      <div class="listing-tags">${tagsHtml}</div>
-      <div class="listing-meta">${metaHtml}</div>
-      <div class="listing-footer">
-        <span class="listing-link">View Profile →</span>
-      </div>
-    `;
-    grid.appendChild(card);
+    const c = document.createElement('div');
+    c.className = 'lc' + (isLegends ? ' legend-card' : '') + (isLibrary ? ' book-card' : '');
+    c.style.animationDelay = (i * 0.025) + 's';
+
+    if (isLegends) {
+      c.innerHTML = `
+        <div class="l-hd"><div class="l-ic">${l.icon || '✦'}</div>${badge}</div>
+        <div class="ln">${l.name}</div>
+        <div class="ll">${l.location || ''}</div>
+        ${l.quote ? `<p class="legend-quote">"${l.quote}"</p>` : ''}
+        <p class="l-desc">${l.description || ''}</p>
+        <div class="l-tags">${tagsHTML}</div>
+        <div class="l-meta">${metaHTML}</div>
+        <div class="l-foot">${linkHTML}</div>`;
+    } else if (isLibrary) {
+      c.innerHTML = `
+        <div class="l-hd"><div class="l-ic">${l.icon || '📖'}</div>${badge}</div>
+        <div class="ln">${l.name}</div>
+        ${l.author ? `<div class="book-author">by ${l.author}</div>` : ''}
+        <div class="ll">${l.location || ''} · ${l.type || ''}</div>
+        <p class="l-desc">${l.description || ''}</p>
+        <div class="l-tags">${tagsHTML}</div>
+        <div class="l-meta">${metaHTML}</div>
+        <div class="l-foot">${linkHTML}</div>`;
+    } else {
+      c.innerHTML = `
+        <div class="l-hd"><div class="l-ic">${l.icon || '🍄'}</div>${badge}</div>
+        <div class="ln">${l.name}</div>
+        <div class="ll">${l.location || ''}</div>
+        <p class="l-desc">${l.description || ''}</p>
+        <div class="l-tags">${tagsHTML}</div>
+        <div class="l-meta">${metaHTML}</div>
+        <div class="l-foot">${linkHTML}</div>`;
+    }
+    g.appendChild(c);
   });
 }
 
-// ══════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════
-// Start on home
-document.getElementById('vertical-view').style.display = 'block';
-document.getElementById('vertical-view').classList.remove('active');
+// ═══════════════════════════════════════
+// MAP VIEW
+// ═══════════════════════════════════════
+function buildMap() {
+  document.getElementById('fBar').innerHTML = '';
+  const body = document.getElementById('vBody');
+  body.innerHTML = `
+    <div class="map-shell">
+      <div class="map-controls">
+        <div>
+          <span class="map-month-label">Pick a month</span>
+          <div class="month-strip" id="monthStrip" style="margin-top:8px;"></div>
+        </div>
+        <div class="map-legend">
+          <span>Activity:</span>
+          <span class="ml-dot ml-low">Low</span>
+          <span class="ml-dot ml-med">Active</span>
+          <span class="ml-dot ml-high">Peak</span>
+        </div>
+      </div>
+      <div class="world-map-wrap">
+        <svg class="world-map" viewBox="0 0 1440 600" xmlns="http://www.w3.org/2000/svg" id="worldMap"></svg>
+      </div>
+      <div class="map-detail" id="mapDetail">
+        <div class="map-empty">
+          <span class="map-empty-ic">🌍</span>
+          Click any region on the map above to explore mushrooms growing there in <b id="emptyMonth"></b>.
+        </div>
+      </div>
+    </div>`;
+
+  const ms = document.getElementById('monthStrip');
+  MONTHS.forEach((m, i) => {
+    const b = document.createElement('button');
+    b.className = 'mb' + (i === mapMonth ? ' on' : '');
+    b.textContent = m;
+    b.onclick = () => { mapMonth = i; buildMap(); };
+    ms.appendChild(b);
+  });
+
+  const map = document.getElementById('worldMap');
+  map.innerHTML = `
+    <g class="continents">
+      <path d="M40,80 Q120,60 220,75 L290,90 L320,140 L340,180 L300,230 L250,260 L200,260 L150,250 L100,220 L60,180 L40,130 Z" fill="rgba(40,42,32,.5)" stroke="rgba(176,140,74,.18)" stroke-width="0.8"/>
+      <path d="M250,260 L280,290 L310,330 L320,380 L300,430 L280,480 L260,520 L290,530 L320,490 L340,430 L355,370 L355,310 L340,280 L320,260 Z" fill="rgba(40,42,32,.5)" stroke="rgba(176,140,74,.18)" stroke-width="0.8"/>
+      <path d="M650,80 L770,75 L820,100 L810,150 L780,180 L740,200 L700,200 L660,180 L640,140 L640,110 Z" fill="rgba(40,42,32,.5)" stroke="rgba(176,140,74,.18)" stroke-width="0.8"/>
+      <path d="M700,200 L780,210 L820,250 L840,310 L850,380 L840,440 L810,490 L770,520 L740,510 L710,480 L690,430 L680,370 L680,300 L685,240 Z" fill="rgba(40,42,32,.5)" stroke="rgba(176,140,74,.18)" stroke-width="0.8"/>
+      <path d="M820,80 L1020,70 L1180,90 L1280,140 L1320,200 L1280,250 L1200,280 L1100,290 L1000,280 L920,260 L860,230 L820,180 L815,130 Z" fill="rgba(40,42,32,.5)" stroke="rgba(176,140,74,.18)" stroke-width="0.8"/>
+      <path d="M1140,440 L1230,430 L1290,450 L1320,490 L1290,530 L1240,540 L1180,520 L1140,490 Z" fill="rgba(40,42,32,.5)" stroke="rgba(176,140,74,.18)" stroke-width="0.8"/>
+    </g>
+    <g class="regions" id="regionsLayer"></g>
+  `;
+
+  const layer = document.getElementById('regionsLayer');
+  ALL_REGIONS.forEach(r => {
+    const rMushrooms = ALL_MUSHROOMS.filter(m => m.region_id === r.id);
+    const peakCount = rMushrooms.filter(m => (m.peak_months || []).includes(mapMonth)).length;
+    const intensity = rMushrooms.length ? peakCount / rMushrooms.length : 0;
+    let r_size, opacity, glow;
+    if (intensity >= 0.5) { r_size = 22; opacity = 1; glow = 28; }
+    else if (intensity >= 0.25) { r_size = 17; opacity = 0.75; glow = 12; }
+    else if (intensity > 0) { r_size = 13; opacity = 0.50; glow = 0; }
+    else { r_size = 10; opacity = 0.25; glow = 0; }
+
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('style', 'cursor:pointer');
+    g.onclick = () => selectRegion(r.id);
+
+    if (glow) {
+      const blur = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      blur.setAttribute('cx', r.cx);
+      blur.setAttribute('cy', r.cy);
+      blur.setAttribute('r', glow);
+      blur.setAttribute('fill', 'rgba(176,140,74,0.22)');
+      g.appendChild(blur);
+    }
+
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', r.cx);
+    dot.setAttribute('cy', r.cy);
+    dot.setAttribute('r', r_size);
+    dot.setAttribute('fill', `rgba(176,140,74,${opacity})`);
+    dot.setAttribute('stroke', mapRegion === r.id ? 'rgb(255,215,140)' : 'rgba(176,140,74,0.7)');
+    dot.setAttribute('stroke-width', mapRegion === r.id ? '2' : '1');
+    g.appendChild(dot);
+
+    const numLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    numLabel.setAttribute('x', r.cx);
+    numLabel.setAttribute('y', r.cy + 4);
+    numLabel.setAttribute('text-anchor', 'middle');
+    numLabel.setAttribute('font-family', "'DM Mono', monospace");
+    numLabel.setAttribute('font-size', '10');
+    numLabel.setAttribute('font-weight', '600');
+    numLabel.setAttribute('fill', '#08090a');
+    numLabel.setAttribute('pointer-events', 'none');
+    numLabel.textContent = peakCount;
+    g.appendChild(numLabel);
+
+    const name = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    name.setAttribute('x', r.cx);
+    name.setAttribute('y', parseFloat(r.cy) + r_size + 14);
+    name.setAttribute('class', 'region-label');
+    name.textContent = r.name;
+    g.appendChild(name);
+
+    layer.appendChild(g);
+  });
+
+  if (mapRegion) {
+    showRegionDetail();
+  } else {
+    document.getElementById('emptyMonth').textContent = MONTHS[mapMonth];
+  }
+}
+
+function selectRegion(id) {
+  mapRegion = id;
+  buildMap();
+  setTimeout(() => {
+    const det = document.getElementById('mapDetail');
+    if (det) det.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 100);
+}
+
+function showRegionDetail() {
+  const r = ALL_REGIONS.find(x => x.id === mapRegion);
+  if (!r) return;
+  const rMushrooms = ALL_MUSHROOMS.filter(m => m.region_id === r.id);
+  const det = document.getElementById('mapDetail');
+  det.classList.add('show');
+  const sorted = [...rMushrooms].sort((a, b) => {
+    const ap = (a.peak_months || []).includes(mapMonth) ? 1 : 0;
+    const bp = (b.peak_months || []).includes(mapMonth) ? 1 : 0;
+    return bp - ap;
+  });
+  const peakNow = sorted.filter(m => (m.peak_months || []).includes(mapMonth)).length;
+
+  det.innerHTML = `
+    <div class="md-header">
+      <div>
+        <div class="md-region">${r.name}</div>
+        <div class="md-month">${r.country} · Peak season for ${MONTHS[mapMonth]}</div>
+      </div>
+      <div class="md-stat">
+        <div class="md-stat-num">${peakNow}</div>
+        <div class="md-stat-lbl">Peaking now</div>
+      </div>
+    </div>
+    <div class="md-mushrooms">
+      ${sorted.map(m => `
+        <div class="mush-card">
+          <div class="mush-row">
+            <div>
+              <div class="mush-name">${m.name}</div>
+              <div class="mush-latin">${m.latin_name || ''}</div>
+            </div>
+            ${(m.peak_months || []).includes(mapMonth) ? '<span class="mush-peak">Peak</span>' : ''}
+          </div>
+          <div class="mush-meta">
+            <span><b>Use:</b> ${m.use_type || '—'}</span>
+            <span><b>Skill:</b> ${m.difficulty || '—'}</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+// Start
+init();
 </script>
 </body>
 </html>
